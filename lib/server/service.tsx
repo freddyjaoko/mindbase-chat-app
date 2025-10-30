@@ -4,7 +4,6 @@ import { render } from "@react-email/components";
 import { User as SlackUser } from "@slack/web-api/dist/types/response/UsersInfoResponse";
 import { asc, and, eq, ne, sql, inArray, like, or } from "drizzle-orm";
 import { union } from "drizzle-orm/pg-core";
-import { unstable_cache, revalidateTag } from "next/cache";
 import nodemailer from "nodemailer";
 import SMTPConnection from "nodemailer/lib/smtp-connection";
 
@@ -12,7 +11,6 @@ import { Member, MemberType } from "@/lib/api";
 import { getDisabledModels } from "@/lib/llm/types";
 import * as settings from "@/lib/server/settings";
 
-import { buildTags, buildTenantTag, buildTenantUserTag } from "../cache-handler";
 import { InviteHtml, PagesLimitReachedHtml, ResetPasswordHtml, VerifyEmailHtml } from "../mail";
 
 import { provisionBillingCustomer } from "./billing";
@@ -339,73 +337,47 @@ async function getAuthContextByUserIdInternal(userId: string, slug: string) {
 
 /**
  * Retrieves serialized authentication context data from cache or database
+ * Now directly calls the internal function without caching
  */
-export function getSerializedCachedAuthContext(userId: string, slug: string) {
-  return unstable_cache(
-    async (userId: string, slug: string) => {
-      return await getAuthContextByUserIdInternal(userId, slug);
-    },
-    ["basechat-auth-context"],
-    {
-      revalidate: 86400, // 24 hours in seconds
-      tags: buildTags(userId, slug),
-    },
-  )(userId, slug);
-}
-
-/**
- * Invalidate the auth context cache for a specific user in a tenant
- */
-export function invalidateUserCache(userId: string, slug: string) {
-  console.log("Invalidating user cache for userId:", userId, "slug:", slug);
-  const tag = buildTenantUserTag(userId, slug);
-  revalidateTag(tag);
-}
-
-/**
- * Invalidate the auth context cache for all users in this tenant
- */
-export function invalidateTenantCache(slug: string) {
-  console.log("Invalidating tenant cache for slug:", slug);
-  const tag = buildTenantTag(slug);
-  revalidateTag(tag);
+export async function getSerializedCachedAuthContext(userId: string, slug: string) {
+  return await getAuthContextByUserIdInternal(userId, slug);
 }
 
 /**
  * Retrieves authentication context data with proper type transformations.
- * Gets cached data and transforms serialized date strings back to Date objects.
+ * Now directly calls the internal function without caching.
  */
 export async function getCachedAuthContext(userId: string, slug: string): Promise<any> {
-  const cachedResult = await getSerializedCachedAuthContext(userId, slug);
+  const result = await getAuthContextByUserIdInternal(userId, slug);
 
   // Transform the tenant object to ensure Date fields are proper Date objects
   const tenant = {
-    ...cachedResult.tenant,
+    ...result.tenant,
     // Convert date strings back to Date objects
-    trialExpiresAt: new Date(cachedResult.tenant.trialExpiresAt),
-    partitionLimitExceededAt: cachedResult.tenant.partitionLimitExceededAt
-      ? new Date(cachedResult.tenant.partitionLimitExceededAt)
+    trialExpiresAt: new Date(result.tenant.trialExpiresAt),
+    partitionLimitExceededAt: result.tenant.partitionLimitExceededAt
+      ? new Date(result.tenant.partitionLimitExceededAt)
       : null,
-    createdAt: new Date(cachedResult.tenant.createdAt),
-    updatedAt: new Date(cachedResult.tenant.updatedAt),
+    createdAt: new Date(result.tenant.createdAt),
+    updatedAt: new Date(result.tenant.updatedAt),
     // Transform metadata plans dates if they exist
-    metadata: cachedResult.tenant.metadata
+    metadata: result.tenant.metadata
       ? {
-          ...cachedResult.tenant.metadata,
-          plans: cachedResult.tenant.metadata.plans?.map((plan: any) => ({
+          ...result.tenant.metadata,
+          plans: result.tenant.metadata.plans?.map((plan: any) => ({
             ...plan,
             endedAt: plan.endedAt ? new Date(plan.endedAt) : null,
             startedAt: new Date(plan.startedAt),
           })),
         }
-      : cachedResult.tenant.metadata,
+      : result.tenant.metadata,
   };
 
   // Transform profile dates as well
   const profile = {
-    ...cachedResult.profile,
-    createdAt: new Date(cachedResult.profile.createdAt),
-    updatedAt: new Date(cachedResult.profile.updatedAt),
+    ...result.profile,
+    createdAt: new Date(result.profile.createdAt),
+    updatedAt: new Date(result.profile.updatedAt),
   };
 
   return {
@@ -847,10 +819,6 @@ export async function linkUsers(fromUserId: string, toUserId: string) {
 
     if (realUserProfile) {
       await setCurrentProfileId(toUserId, realUserProfile.id);
-      const tenant = await getTenantByTenantId(realUserProfile.tenantId);
-      if (tenant) {
-        invalidateUserCache(toUserId, tenant.slug);
-      }
     }
   });
 }
