@@ -7,8 +7,9 @@ import { z } from "zod";
 
 import { signUp } from "@/lib/auth-client";
 import { getStartPath } from "@/lib/paths";
+import { Button } from "@/components/ui/button";
 
-import { Button, Error } from "../common";
+import { Error } from "../common";
 import { extendPasswordSchema } from "../utils";
 
 const registerSchema = extendPasswordSchema({

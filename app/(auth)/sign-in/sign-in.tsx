@@ -5,8 +5,7 @@ import { toast } from "sonner";
 
 import { signIn } from "@/lib/auth-client";
 import { getStartPath } from "@/lib/paths";
-
-import { Button } from "../common";
+import { Button } from "@/components/ui/button";
 
 export default function SignIn({ redirectTo, reset }: { redirectTo?: string; reset?: boolean }) {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

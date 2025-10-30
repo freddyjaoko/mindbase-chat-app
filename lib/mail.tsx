@@ -46,14 +46,6 @@ const Layout = ({ children, preview }: { children: React.ReactElement; preview: 
 
         <Container className="mx-auto mt-10 w-[504px] p-12 bg-white rounded-[24px]">{children}</Container>
 
-        <Section className="text-center mt-8">
-          <Text className="text-[#74747A] text-[14px]">
-            {settings.APP_NAME} is powered by&nbsp;
-            <Link href="https://www.ragie.ai/?utm_source=basechat-email" className="underline text-[#74747A]">
-              Ragie
-            </Link>
-          </Text>
-        </Section>
       </Body>
     </Tailwind>
   </Html>

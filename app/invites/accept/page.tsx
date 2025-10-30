@@ -40,14 +40,6 @@ function ErrorPage({ title, message }: { title: string; message: string }) {
           </div>
         </div>
       </div>
-      <div className="h-20 shrink-0 w-full bg-[#27272A] flex items-center justify-center">
-        <div className="mr-2.5 text-md text-[#FEFEFE]">Powered by</div>
-        <div>
-          <a href="https://ragie.ai/?utm_source=oss-chatbot" target="_blank">
-            <RagieLogo />
-          </a>
-        </div>
-      </div>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { Title } from "../common";
+import { Button } from "@/components/ui/button";
 
 import Reset from "./reset";
 
@@ -16,9 +17,11 @@ export default function ResetPage() {
 
       <Reset />
 
-      <Link href="/sign-in" className="mt-6 text-[16px] text-[#74747A] hover:underline">
-        Back to sign in
-      </Link>
+      <Button variant="link" asChild>
+        <Link href="/sign-in" className="mt-6 text-[16px] text-primary hover:underline hover:text-primary/90">
+          Back to sign in
+        </Link>
+      </Button>
     </>
   );
 }

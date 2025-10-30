@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import * as settings from "@/lib/server/settings";
+import { Button } from "@/components/ui/button";
 
 import { Title } from "../common";
 import GoogleSignIn from "../google-sign-in";
@@ -38,15 +39,15 @@ export default async function SignInPage({ searchParams }: { searchParams: Promi
 
       <SignIn reset={!!reset} redirectTo={redirectTo} />
 
-      <Link href="/reset" className="text-[#D946EF] text-[16px] mt-6 hover:underline">
-        Forgot password?
-      </Link>
+      <Button variant="link" asChild>
+        <Link href="/reset">Forgot password?</Link>
+      </Button>
 
       <div className="mt-6 text-[16px]">
         <span className="text-[#74747A]">Need to create a new organization?&nbsp;</span>
-        <Link href={signUpUrl.toString()} className="text-[#D946EF] hover:underline">
-          Sign up
-        </Link>
+        <Button variant="link" asChild>
+          <Link href={signUpUrl.toString()}>Sign up</Link>
+        </Button>
       </div>
     </>
   );
