@@ -9,7 +9,6 @@ import auth from "@/auth";
 
 import { getCheckPath, getSignInPath, getTenantPath } from "../paths";
 
-// Fix import: add missing comma and import non-cached accessor
 import { findTenantBySlug, updateTenantPaidStatus, getAuthContextByUserId } from "./service";
 import { BILLING_ENABLED } from "./settings";
 
