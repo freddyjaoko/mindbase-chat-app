@@ -4,7 +4,6 @@ import { NextRequest } from "next/server";
 import { updateTenantSchema } from "@/lib/api";
 import db from "@/lib/server/db";
 import * as schema from "@/lib/server/db/schema";
-import { invalidateTenantCache } from "@/lib/server/service";
 import { requireAdminContextFromRequest } from "@/lib/server/utils";
 
 export async function PATCH(request: NextRequest) {
@@ -18,12 +17,6 @@ export async function PATCH(request: NextRequest) {
   } catch (error) {
     console.error("Failed to update tenant:", error);
     return Response.json({ error: "Failed to update tenant settings" }, { status: 500 });
-  }
-
-  try {
-    invalidateTenantCache(tenant.slug);
-  } catch (error) {
-    console.error(`Failed to invalidate auth context cache for tenant ${tenant.id}:`, error);
   }
 
   return new Response();

@@ -6,7 +6,7 @@ import { NextRequest } from "next/server";
 import { getPricingPlansPath } from "@/lib/paths";
 import db from "@/lib/server/db";
 import * as schema from "@/lib/server/db/schema";
-import { saveConnection, sendPageLimitNotificationEmail, invalidateTenantCache } from "@/lib/server/service";
+import { saveConnection, sendPageLimitNotificationEmail } from "@/lib/server/service";
 import { DEFAULT_PARTITION_LIMIT, RAGIE_WEBHOOK_SECRET, BASE_URL } from "@/lib/server/settings";
 import { validateSignature } from "@/lib/server/utils";
 
@@ -82,9 +82,6 @@ async function handlePartitionLimitEvent(event: WebhookEvent) {
       console.error("Failed to notify admin users:", error);
     }
   }
-
-  // Invalidate auth context cache for all users in this tenant
-  invalidateTenantCache(tenantResult[0].slug);
 
   return Response.json({ message: "success" });
 }

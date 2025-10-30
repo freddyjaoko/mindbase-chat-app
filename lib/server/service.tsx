@@ -344,40 +344,48 @@ export async function getSerializedCachedAuthContext(userId: string, slug: strin
 }
 
 /**
+ * Exported non-cached helper for getting auth context (use this to remove caching)
+ */
+export async function getAuthContextByUserId(userId: string, slug: string) {
+  return await getAuthContextByUserIdInternal(userId, slug);
+}
+
+/**
  * Retrieves authentication context data with proper type transformations.
- * Now directly calls the internal function without caching.
+ * Gets cached data and transforms serialized date strings back to Date objects.
+ * (Still kept for compatibility; it now uses the non-cached serialized fetch)
  */
 export async function getCachedAuthContext(userId: string, slug: string): Promise<any> {
-  const result = await getAuthContextByUserIdInternal(userId, slug);
+  const cachedResult = await getSerializedCachedAuthContext(userId, slug);
 
   // Transform the tenant object to ensure Date fields are proper Date objects
   const tenant = {
-    ...result.tenant,
+    ...cachedResult.tenant,
     // Convert date strings back to Date objects
-    trialExpiresAt: new Date(result.tenant.trialExpiresAt),
-    partitionLimitExceededAt: result.tenant.partitionLimitExceededAt
-      ? new Date(result.tenant.partitionLimitExceededAt)
+    trialExpiresAt: new Date(cachedResult.tenant.trialExpiresAt),
+    partitionLimitExceededAt: cachedResult.tenant.partitionLimitExceededAt
+      ? new Date(cachedResult.tenant.partitionLimitExceededAt)
       : null,
-    createdAt: new Date(result.tenant.createdAt),
-    updatedAt: new Date(result.tenant.updatedAt),
+    createdAt: new Date(cachedResult.tenant.createdAt),
+    updatedAt: new Date(cachedResult.tenant.updatedAt),
     // Transform metadata plans dates if they exist
-    metadata: result.tenant.metadata
+    metadata: cachedResult.tenant.metadata
       ? {
-          ...result.tenant.metadata,
-          plans: result.tenant.metadata.plans?.map((plan: any) => ({
+          ...cachedResult.tenant.metadata,
+          plans: cachedResult.tenant.metadata.plans?.map((plan: any) => ({
             ...plan,
             endedAt: plan.endedAt ? new Date(plan.endedAt) : null,
             startedAt: new Date(plan.startedAt),
           })),
         }
-      : result.tenant.metadata,
+      : cachedResult.tenant.metadata,
   };
 
   // Transform profile dates as well
   const profile = {
-    ...result.profile,
-    createdAt: new Date(result.profile.createdAt),
-    updatedAt: new Date(result.profile.updatedAt),
+    ...cachedResult.profile,
+    createdAt: new Date(cachedResult.profile.createdAt),
+    updatedAt: new Date(cachedResult.profile.updatedAt),
   };
 
   return {

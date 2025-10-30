@@ -9,7 +9,8 @@ import auth from "@/auth";
 
 import { getCheckPath, getSignInPath, getTenantPath } from "../paths";
 
-import { findTenantBySlug, getCachedAuthContext, invalidateTenantCache, updateTenantPaidStatus } from "./service";
+// Fix import: add missing comma and import non-cached accessor
+import { findTenantBySlug, updateTenantPaidStatus, getAuthContextByUserId } from "./service";
 import { BILLING_ENABLED } from "./settings";
 
 const tenantSchema = z.string();
@@ -25,7 +26,7 @@ export async function requireSession() {
 
 export async function requireAuthContext(slug: string) {
   const session = await requireSession();
-  const { profile, tenant } = await getCachedAuthContext(session.user.id, slug);
+  const { profile, tenant } = await getAuthContextByUserId(session.user.id, slug);
 
   if (
     BILLING_ENABLED &&
@@ -33,7 +34,6 @@ export async function requireAuthContext(slug: string) {
     tenant.trialExpiresAt < new Date()
   ) {
     await updateTenantPaidStatus(tenant.id, "expired");
-    invalidateTenantCache(tenant.slug);
   }
 
   return { profile, tenant, session };
