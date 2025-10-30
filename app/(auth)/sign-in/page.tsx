@@ -1,7 +1,7 @@
 import Link from "next/link";
 
-import * as settings from "@/lib/server/settings";
 import { Button } from "@/components/ui/button";
+import * as settings from "@/lib/server/settings";
 
 import { Title } from "../common";
 import GoogleSignIn from "../google-sign-in";

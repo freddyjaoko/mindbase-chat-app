@@ -1,8 +1,8 @@
 import Link from "next/link";
 
+import { Button } from "@/components/ui/button";
 import { getSignInPath } from "@/lib/paths";
 import * as settings from "@/lib/server/settings";
-import { Button } from "@/components/ui/button";
 
 import { Title } from "../common";
 import GoogleSignIn from "../google-sign-in";
@@ -19,7 +19,8 @@ export default async function SignUpPage({ searchParams }: { searchParams: Promi
   return (
     <>
       <Title className="mb-12">
-        Welcome to MindBase.<br />
+        Welcome to MindBase.
+        <br />
         Sign up to build your chatbot.
       </Title>
 
@@ -35,17 +36,13 @@ export default async function SignUpPage({ searchParams }: { searchParams: Promi
       <SignUp redirectTo={redirectTo} />
 
       <Button variant="link" asChild>
-        <Link href="/reset">
-          Forgot password?
-        </Link>
+        <Link href="/reset">Forgot password?</Link>
       </Button>
 
       <div className="mt-6 text-[16px]">
         <span className="text-[#74747A]">Already using {settings.APP_NAME}?&nbsp;</span>
         <Button variant="link" asChild>
-          <Link href={signInUrl.toString()}>
-            Sign in
-          </Link>
+          <Link href={signInUrl.toString()}>Sign in</Link>
         </Button>
       </div>
     </>

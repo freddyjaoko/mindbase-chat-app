@@ -15,6 +15,18 @@ const compat = new FlatCompat({
 });
 
 const settings = [
+    // Ignore folders that should never be linted
+  {
+    ignores: [
+      "node_modules",
+      ".next",
+      "dist",
+      "build",
+      "coverage",
+      "out",
+      "public",
+    ],
+  },
   ...compat.extends("next/core-web-vitals"),
   {
     plugins: {

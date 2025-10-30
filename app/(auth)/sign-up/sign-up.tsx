@@ -5,9 +5,9 @@ import { useReducer } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import { Button } from "@/components/ui/button";
 import { signUp } from "@/lib/auth-client";
 import { getStartPath } from "@/lib/paths";
-import { Button } from "@/components/ui/button";
 
 import { Error } from "../common";
 import { extendPasswordSchema } from "../utils";

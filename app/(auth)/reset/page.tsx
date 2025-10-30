@@ -1,7 +1,8 @@
 import Link from "next/link";
 
-import { Title } from "../common";
 import { Button } from "@/components/ui/button";
+
+import { Title } from "../common";
 
 import Reset from "./reset";
 
