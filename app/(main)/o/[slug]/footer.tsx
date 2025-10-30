@@ -26,9 +26,9 @@ export enum AppLocation {
 
 export function NavButton({ alt, src, className }: { alt: string; src: any; className?: string }) {
   return (
-    <div className={cn("flex flex-col w-20 text-white items-center", className)}>
-      <Image alt={alt} src={src} className="mb-2.5" />
-      <div className="text-[14px]">{alt}</div>
+    <div className={cn("flex flex-col items-center text-black p-2", className)}>
+      <Image alt={alt} src={src} className="mb-1 w-6 h-6" />
+      <div className="text-[12px]">{alt}</div>
     </div>
   );
 }
