@@ -129,6 +129,10 @@ export default function AssistantMessage({
   isGenerating,
   tenantId,
 }: Props) {
+  // Detect SVG content in the message
+  const svgMatch = content?.match(/<svg[\s\S]*?<\/svg>/i);
+  const hasSVG = !!svgMatch;
+
   return (
     <div className="flex">
       <div className="mb-8 shrink-0">
@@ -143,15 +147,20 @@ export default function AssistantMessage({
       </div>
       <div className="self-start mb-6 rounded-md ml-7 max-w-[calc(100%-60px)]">
         {content?.length ? (
-          <Markdown
-            className="markdown mt-[10px]"
-            rehypePlugins={[rehypeHighlight]}
-            components={{
-              pre: CodeBlock,
-            }}
-          >
-            {content}
-          </Markdown>
+          hasSVG ? (
+            // Render SVG markup directly
+            <div className="mt-[10px]" dangerouslySetInnerHTML={{ __html: svgMatch[0] }} />
+          ) : (
+            <Markdown
+              className="markdown mt-[10px]"
+              rehypePlugins={[rehypeHighlight]}
+              components={{
+                pre: CodeBlock,
+              }}
+            >
+              {content}
+            </Markdown>
+          )
         ) : (
           <div className="dot-pulse mt-[14px]" />
         )}
