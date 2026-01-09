@@ -7,21 +7,25 @@ const withPWA = withPWAInit({
   aggressiveFrontEndNavCaching: true,
   reloadOnOnline: true,
   disable: process.env.NODE_ENV === "development",
+  register: true, // Force the service worker to register
   workboxOptions: {
     disableDevLogs: true,
+    // iOS is very strict about Service Worker updates
+    skipWaiting: true,
+    clientsClaim: true,
   },
 });
 
 const nextConfig: NextConfig = {
-  // Set to false because strict mode breaks components that call APIs when the component is rendered (like in Conversation)
   reactStrictMode: false,
-  // Only use Redis cache handler if REDIS_URL is present
-  ...(process.env.USE_REDIS && {
-    cacheMaxMemorySize: 0, // disable default in-memory caching
-  }),
+  // Your existing config...
   output: "standalone",
   experimental: {
     authInterrupts: true,
+  },
+  // Ensure the manifest and SW are not optimized away
+  images: {
+    unoptimized: true,
   },
 };
 
