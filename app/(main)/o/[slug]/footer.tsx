@@ -58,18 +58,21 @@ export default function Footer({ className, tenant }: Props) {
   const settingsClassName = appLocation === AppLocation.SETTINGS ? "mr-5 font-semibold" : "mr-5";
 
   return (
-    <div className={className}>
-      <div className="flex">
-        <Link href={getTenantPath(tenant.slug)}>
-          <NavButton alt="Chat" src={chatIcon} className={chatClassName} />
-        </Link>
-        <Link href={getDataPath(tenant.slug)}>
-          <NavButton alt="Data" src={dataIcon} className={dataClassName} />
-        </Link>
-        <Link href={getSettingsPath(tenant.slug)}>
-          <NavButton alt="Settings" src={settingsIcon} className={settingsClassName} />
-        </Link>
-      </div>
+    <div
+      className={cn(
+        "flex justify-around md:justify-start w-full md:w-auto bg-white md:bg-transparent border-t md:border-none py-2 md:py-0",
+        className,
+      )}
+    >
+      <Link href={getTenantPath(tenant.slug)} className="flex-1 md:flex-none flex justify-center">
+        <NavButton alt="Chat" src={chatIcon} className={chatClassName} />
+      </Link>
+      <Link href={getDataPath(tenant.slug)} className="flex-1 md:flex-none flex justify-center">
+        <NavButton alt="Data" src={dataIcon} className={dataClassName} />
+      </Link>
+      <Link href={getSettingsPath(tenant.slug)} className="flex-1 md:flex-none flex justify-center">
+        <NavButton alt="Settings" src={settingsIcon} className={settingsClassName} />
+      </Link>
     </div>
   );
 }
