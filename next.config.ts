@@ -1,4 +1,16 @@
+import withPWAInit from "@ducanh2912/next-pwa";
 import type { NextConfig } from "next";
+
+const withPWA = withPWAInit({
+  dest: "public",
+  cacheOnFrontEndNav: true,
+  aggressiveFrontEndNavCaching: true,
+  reloadOnOnline: true,
+  disable: process.env.NODE_ENV === "development",
+  workboxOptions: {
+    disableDevLogs: true,
+  },
+});
 
 const nextConfig: NextConfig = {
   // Set to false because strict mode breaks components that call APIs when the component is rendered (like in Conversation)
@@ -13,4 +25,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withPWA(nextConfig);
