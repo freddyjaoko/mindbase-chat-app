@@ -8,16 +8,19 @@ export default function manifest(): MetadataRoute.Manifest {
     start_url: "/",
     id: "/",
     scope: "/",
-    display: "fullscreen",
-    display_override: ["fullscreen", "standalone"],
-    orientation: "portrait",
+    display: "standalone", // Changed from fullscreen for better iOS stability
     background_color: "#ffffff",
     theme_color: "#ffffff",
     icons: [
       {
-        src: "/favicon.ico",
-        sizes: "any",
-        type: "image/x-icon",
+        src: "/logo.png", // Ensure you have a PNG version
+        sizes: "192x192",
+        type: "image/png",
+      },
+      {
+        src: "/logo.png",
+        sizes: "512x512",
+        type: "image/png",
       },
     ],
   };
