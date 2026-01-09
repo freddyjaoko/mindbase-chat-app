@@ -16,6 +16,15 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Mindbase",
   description: "MindBase connects to your company knowledge and lets you interact withyour data",
+  applicationName: "Mindbase",
+  manifest: "/manifest.webmanifest",
+  themeColor: "#ffffff",
+  viewport: "width=device-width, initial-scale=1, viewport-fit=cover",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Mindbase",
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
