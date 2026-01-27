@@ -28,14 +28,14 @@ export default async function SignInPage({ searchParams }: { searchParams: Promi
         Log in to your account below.
       </Title>
 
-      <div className="flex flex-col items-center w-full">
+      {/* <div className="flex flex-col items-center w-full">
         <GoogleSignIn redirectTo={redirectTo} />
       </div>
 
       <div className="flex flex-col items-center mb-8 w-full relative">
         <hr className="w-full" />
         <div className="absolute text-base top-[-24px] bg-white p-3 text-center text-[#74747A]">or</div>
-      </div>
+      </div> */}
 
       <SignIn reset={!!reset} redirectTo={redirectTo} />
 

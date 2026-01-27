@@ -10,7 +10,7 @@ export default async function Home({ params }: { params: Promise<{ slug: string 
     <Welcome
       tenant={context.tenant}
       profile={context.profile}
-      className="flex-1 flex flex-col w-full bg-white p-4 max-w-[717px]"
+      className="flex-1 flex flex-col w-full p-4 max-w-[717px]"
     />
   );
 }

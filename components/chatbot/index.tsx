@@ -398,6 +398,17 @@ export default function Chatbot({ tenant, conversationId, initMessage, onSelecte
     <div className="flex h-full w-full items-center flex-col">
       <div ref={container} className="flex flex-col h-full w-full items-center overflow-y-auto">
         <div className="flex flex-col h-full w-full p-4 max-w-[717px]">
+          {allMessages.length === 0 && !isLoading && (
+            <div className="flex flex-col items-center justify-center flex-1 h-full text-center pb-20 opacity-50 select-none pointer-events-none">
+              <div className="w-24 h-24 mb-6 rounded-none border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center bg-white">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                </svg>
+              </div>
+              <h2 className="text-3xl font-bold mb-2 uppercase tracking-wide">Ready to Chat</h2>
+              <p className="text-lg font-medium">Ask away. I'm listening.</p>
+            </div>
+          )}
           {allMessages.map((message, i) =>
             message.role === "user" ? (
               <UserMessage key={i} content={message.content} />
