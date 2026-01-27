@@ -67,7 +67,7 @@ const QuestionField = ({ form, name, label }: QuestionFieldProps) => (
           <Input
             type="text"
             placeholder="Type something"
-            className="rounded-[8px] border border-[#D7D7D7] h-[58px] placeholder-[#74747A] text-base"
+            className="h-[58px] text-base"
             {...field}
             value={String(field.value)}
           />
@@ -126,7 +126,7 @@ const TextAreaField = ({ form, name, label, className, help, hasDefault }: TextA
             )}
           </FormLabel>
           <FormControl>
-            <div className="rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm">
+            <div className="rounded-none border-2 border-black bg-transparent px-3 py-2 text-base shadow-[2px_2px_0px_0px_rgba(0,0,0,0.1)] transition-colors focus-within:ring-2 focus-within:ring-black focus-within:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] md:text-sm">
               <AutosizeTextarea className="pt-1.5" minHeight={80} {...field} value={String(field.value)} />
             </div>
           </FormControl>
@@ -154,7 +154,7 @@ const CompanyNameField = ({ form, name, label }: CompanyNameFieldProps) => {
           <FormControl>
             <Input
               type="text"
-              className="rounded-[8px] border border-[#D7D7D7] h-[58px] placeholder-[#74747A] text-base"
+              className="h-[58px] text-base"
               {...field}
               value={String(field.value)}
             />
@@ -349,7 +349,7 @@ export default function GeneralSettings({ tenant, canUploadLogo }: Props) {
         <div className="flex justify-end">
           <button
             type="reset"
-            className="rounded-lg disabled:opacity-[55%] px-4 py-2.5 mr-3"
+            className="rounded-none border-2 border-transparent hover:border-black disabled:opacity-[55%] px-4 py-2.5 mr-3 font-bold transition-all uppercase tracking-wider"
             disabled={!form.formState.isDirty}
             onClick={handleCancel}
           >
@@ -357,7 +357,7 @@ export default function GeneralSettings({ tenant, canUploadLogo }: Props) {
           </button>
           <button
             type="button"
-            className="rounded-lg bg-[#D946EF] text-white disabled:opacity-[55%] px-4 py-2.5 flex items-center"
+            className="rounded-none border-2 border-black bg-primary text-primary-foreground shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] disabled:opacity-[55%] px-6 py-2.5 flex items-center font-bold uppercase tracking-wider transition-all"
             disabled={!form.formState.isDirty || isLoading}
             onClick={form.handleSubmit(onSubmit)}
           >

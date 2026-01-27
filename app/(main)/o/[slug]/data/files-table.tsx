@@ -239,7 +239,7 @@ export default function FilesTable({
               <button
                 onClick={handlePreviousPage}
                 disabled={!currentCursor && cursorHistory.length === 0}
-                className={`p-1 rounded-md flex items-center gap-1 ${!currentCursor && cursorHistory.length === 0 ? "text-gray-400 cursor-not-allowed" : "text-gray-600 hover:bg-gray-100"}`}
+                className={`p-1 rounded-none border border-transparent hover:border-black flex items-center gap-1 ${!currentCursor && cursorHistory.length === 0 ? "text-gray-400 cursor-not-allowed" : "text-gray-600 hover:bg-gray-100"}`}
               >
                 <ChevronLeft className="h-5 w-5" />
                 <span className="text-sm">Previous 50</span>
@@ -247,7 +247,7 @@ export default function FilesTable({
               <button
                 onClick={() => handleNavigation(nextCursor)}
                 disabled={!nextCursor}
-                className={`p-1 rounded-md flex items-center gap-1 ${!nextCursor ? "text-gray-400 cursor-not-allowed" : "text-gray-600 hover:bg-gray-100"}`}
+                className={`p-1 rounded-none border border-transparent hover:border-black flex items-center gap-1 ${!nextCursor ? "text-gray-400 cursor-not-allowed" : "text-gray-600 hover:bg-gray-100"}`}
               >
                 <span className="text-sm">Next 50</span>
                 <ChevronRight className="h-5 w-5" />
@@ -255,7 +255,7 @@ export default function FilesTable({
             </div>
           </div>
           <div
-            className={`flex-1 overflow-y-auto relative ${isDragActive ? "after:content-[''] after:absolute after:inset-0 after:bg-[#F0F7FF] after:border-2 after:border-[#007AFF] after:border-dashed after:rounded-lg after:pointer-events-none" : ""}`}
+            className={`flex-1 overflow-y-auto relative ${isDragActive ? "after:content-[''] after:absolute after:inset-0 after:bg-[#F0F7FF] after:border-2 after:border-[#007AFF] after:border-dashed after:rounded-none after:pointer-events-none" : ""}`}
           >
             {isLoading ? (
               <div className="h-full w-full flex items-center justify-center">
@@ -279,8 +279,8 @@ export default function FilesTable({
                       <TableCell className="font-medium">{file.name}</TableCell>
                       <TableCell>
                         {file.metadata?.source_type &&
-                        file.metadata.source_type !== "manual" &&
-                        CONNECTOR_MAP[file.metadata.source_type] ? (
+                          file.metadata.source_type !== "manual" &&
+                          CONNECTOR_MAP[file.metadata.source_type] ? (
                           <div className="flex items-center gap-2">
                             <Image
                               src={CONNECTOR_MAP[file.metadata.source_type][1]}

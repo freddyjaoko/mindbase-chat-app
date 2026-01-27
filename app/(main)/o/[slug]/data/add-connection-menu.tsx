@@ -75,7 +75,7 @@ export default function AddConnectionMenu({ tenant, disabled }: Props) {
       ) : (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="flex items-center rounded-[40px] h-[40px] px-5 bg-[#FFFFFF] border border-[#D7D7D7] font-semibold hover:bg-[#F5F5F7] data-[state=open]:bg-[#F5F5F7]">
+            <button className="flex items-center rounded-none h-[40px] px-5 bg-[#FFFFFF] border-2 border-black font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all hover:bg-accent hover:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground">
               <div className="mr-2">Add Connection</div>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <mask
@@ -90,14 +90,14 @@ export default function AddConnectionMenu({ tenant, disabled }: Props) {
                   <rect y="16" width="16" height="16" transform="rotate(-90 0 16)" fill="#D9D9D9" />
                 </mask>
                 <g mask="url(#mask0_217_2334)">
-                  <path d="M12 6.3999L8 10.3999L4 6.3999L4.85 5.5499L8 8.6999L11.15 5.5499L12 6.3999Z" fill="#1C1B1F" />
+                  <path d="M12 6.3999L8 10.3999L4 6.3999L4.85 5.5499L8 8.6999L11.15 5.5499L12 6.3999Z" fill="currentColor" />
                 </g>
               </svg>
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="end"
-            className="bg-[#F5F5F7] border border-[#D7D7D7] py-4 px-2.5 rounded-[24px] mt-4 max-h-[calc(100vh-155px)] overflow-y-auto overflow-x-visible pr-1 scrollbar-thin"
+            className="bg-white border-2 border-black py-4 px-2.5 rounded-none mt-4 max-h-[calc(100vh-155px)] overflow-y-auto overflow-x-visible pr-1 scrollbar-thin shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
           >
             {Object.entries(CONNECTOR_MAP).map(([sourceType, [name, icon]]) => (
               <DropdownMenuItem

@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { signUp } from "@/lib/auth-client";
 import { getStartPath } from "@/lib/paths";
 
@@ -72,40 +73,40 @@ export default function SignUp({ redirectTo }: { redirectTo?: string }) {
       <Error error={state.error} />
 
       <div className="flex justify-between gap-4">
-        <input
+        <Input
           name="firstName"
           type="text"
           placeholder="First name"
-          className="w-full border rounded-[6px] text-[16px] placeholder-[#74747A] px-4 py-2 mb-4"
+          className="mb-4"
           onChange={(e) => dispatch({ firstName: e.target.value })}
         />
-        <input
+        <Input
           name="lastName"
           type="text"
           placeholder="Last name"
-          className="w-full border rounded-[6px] text-[16px] placeholder-[#74747A] px-4 py-2 mb-4"
+          className="mb-4"
           onChange={(e) => dispatch({ lastName: e.target.value })}
         />
       </div>
-      <input
+      <Input
         name="email"
         type="email"
         placeholder="Email"
-        className="w-full border rounded-[6px] text-[16px] placeholder-[#74747A] px-4 py-2 mb-4"
+        className="mb-4"
         onChange={(e) => dispatch({ email: e.target.value })}
       />
-      <input
+      <Input
         name="password"
         type="password"
         placeholder="Password"
-        className="w-full border rounded-[6px] text-[16px] placeholder-[#74747A] px-4 py-2 mb-4"
+        className="mb-4"
         onChange={(e) => dispatch({ password: e.target.value })}
       />
-      <input
+      <Input
         name="confirm"
         type="password"
         placeholder="Confirm password"
-        className="w-full border rounded-[6px] text-[16px] placeholder-[#74747A] px-4 py-2 mb-8"
+        className="mb-8"
         onChange={(e) => dispatch({ confirm: e.target.value })}
       />
       <Button>Sign up</Button>

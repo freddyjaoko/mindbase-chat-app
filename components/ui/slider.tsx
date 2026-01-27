@@ -22,10 +22,10 @@ const Slider = React.forwardRef<
       className={cn("relative flex touch-none select-none items-center", heightClassName, widthClassName, className)}
       {...props}
     >
-      <SliderPrimitive.Track className="relative h-[3px] grow rounded-full bg-black">
-        <SliderPrimitive.Range className="absolute h-full rounded-full bg-zinc-500" />
+      <SliderPrimitive.Track className="relative h-[6px] grow rounded-none bg-black/20 border-2 border-black/10">
+        <SliderPrimitive.Range className="absolute h-full rounded-none bg-primary" />
       </SliderPrimitive.Track>
-      <SliderPrimitive.Thumb className={cn("block size-5 rounded-[10px] focus:outline-none", colorClassName)} />
+      <SliderPrimitive.Thumb className={cn("block size-5 rounded-none border-2 border-black bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] focus:outline-none", colorClassName)} />
     </SliderPrimitive.Root>
   ),
 );

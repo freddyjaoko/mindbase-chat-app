@@ -65,9 +65,8 @@ export default function UploadFileButton({ tenant, userName, disabled, onUploadC
       <Tooltip>
         <TooltipTrigger asChild>
           <button
-            className={`flex items-center rounded-[40px] h-[40px] px-5 bg-[#FFFFFF] border border-[#D7D7D7] font-semibold ${
-              disabled ? "opacity-50 cursor-not-allowed" : "hover:bg-[#F5F5F7]"
-            }`}
+            className={`flex items-center rounded-none h-[40px] px-5 bg-[#FFFFFF] border-2 border-black font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all ${disabled ? "opacity-50 cursor-not-allowed" : "hover:bg-accent hover:text-accent-foreground"
+              }`}
             onClick={handleUpload}
             disabled={disabled}
           >

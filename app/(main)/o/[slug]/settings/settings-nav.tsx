@@ -17,7 +17,12 @@ import { cn } from "@/lib/utils";
 import { AppLocation } from "../footer";
 
 const NavItem = ({ children, selected }: { children: ReactNode; selected?: boolean }) => (
-  <div className={cn("px-3 py-2 rounded-lg hover:bg-[#F5F5F7]", selected ? "bg-[#F5F5F7] font-semibold" : "")}>
+  <div
+    className={cn(
+      "px-3 py-2 rounded-none border-2 border-transparent hover:border-black transition-all font-bold uppercase tracking-wider text-sm",
+      selected ? "bg-accent text-accent-foreground border-black" : "hover:bg-accent/20",
+    )}
+  >
     {children}
   </div>
 );

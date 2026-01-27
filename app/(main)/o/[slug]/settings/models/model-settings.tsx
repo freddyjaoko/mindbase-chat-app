@@ -371,14 +371,12 @@ const AgenticField = (form: UseFormReturn<FormValues>) => {
 
         {/* Agentic Level Settings - Only show when agentic is enabled */}
         <div
-          className={`overflow-hidden transition-all duration-300 ease-in-out ${
-            isAgenticEnabled ? "max-h-[500px] opacity-100 translate-y-0" : "max-h-0 opacity-0 -translate-y-2"
-          }`}
+          className={`overflow-hidden transition-all duration-300 ease-in-out ${isAgenticEnabled ? "max-h-[500px] opacity-100 translate-y-0" : "max-h-0 opacity-0 -translate-y-2"
+            }`}
         >
           <div
-            className={`space-y-6 transition-transform duration-300 ease-in-out ${
-              isAgenticEnabled ? "translate-y-0" : "-translate-y-2"
-            }`}
+            className={`space-y-6 transition-transform duration-300 ease-in-out ${isAgenticEnabled ? "translate-y-0" : "-translate-y-2"
+              }`}
           >
             <FormField
               control={form.control}
@@ -552,7 +550,7 @@ export default function ModelSettings({ tenant }: Props) {
         <div className="flex justify-end">
           <button
             type="reset"
-            className="rounded-lg disabled:opacity-[55%] px-4 py-2.5 mr-3"
+            className="rounded-none disabled:opacity-[55%] px-4 py-2.5 mr-3 border-2 border-transparent hover:border-black transition-colors font-bold"
             disabled={!form.formState.isDirty}
             onClick={handleCancel}
           >
@@ -560,7 +558,7 @@ export default function ModelSettings({ tenant }: Props) {
           </button>
           <button
             type="button"
-            className="rounded-lg bg-[#D946EF] text-white disabled:opacity-[55%] px-4 py-2.5 flex items-center"
+            className="rounded-none bg-[#D946EF] text-white disabled:opacity-[55%] px-4 py-2.5 flex items-center border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all font-bold"
             disabled={!form.formState.isDirty || isLoading}
             onClick={() => onSubmit(form.getValues())}
           >
@@ -571,7 +569,7 @@ export default function ModelSettings({ tenant }: Props) {
       </div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(() => {})}>
+        <form onSubmit={form.handleSubmit(() => { })}>
           <div>{ModelsField(form)}</div>
           <div className="h-16" />
           {AgenticField(form)}

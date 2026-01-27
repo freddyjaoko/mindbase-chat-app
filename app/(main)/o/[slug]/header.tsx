@@ -58,7 +58,10 @@ const HeaderPopoverContent = ({
 }) => (
   <PopoverContent
     align={align}
-    className={cn("bg-[#F5F5F7] w-[258px] border-none shadow-none rounded-[24px] py-6 px-2", className)}
+    className={cn(
+      "bg-card w-[258px] border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rounded-none py-6 px-2",
+      className,
+    )}
   >
     {children}
   </PopoverContent>
@@ -70,7 +73,9 @@ const TenantPopoverContent = ({ children }: { children: React.ReactNode }) => (
     alignOffset={-60}
     side="right"
     sideOffset={-20}
-    className={cn("bg-[#F5F5F7] w-[120px] border border-[#D7D7D7] shadow-none rounded-[6px] mt-2 p-3")}
+    className={cn(
+      "bg-card w-[120px] border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rounded-none mt-2 p-3",
+    )}
   >
     {children}
   </PopoverContent>
@@ -83,7 +88,7 @@ export default function Header({
   email,
   role,
   billingEnabled,
-  onNavClick = () => {},
+  onNavClick = () => { },
 }: Props) {
   const router = useRouter();
   const [tenants, setTenants] = useState<z.infer<typeof tenantListResponseSchema>>([]);
@@ -130,6 +135,26 @@ export default function Header({
             <ConversationHistory tenant={tenant} />
           </HeaderPopoverContent>
         </Popover>
+        <Link
+          href={`/o/${tenant.slug}/insights`}
+          className="mr-3 flex items-center font-bold uppercase tracking-wider text-sm border-2 border-transparent hover:border-black px-2 hover:bg-accent hover:text-accent-foreground transition-all ml-4"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="square"
+            strokeLinejoin="miter"
+            className="mr-2"
+          >
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+          </svg>
+          Insights
+        </Link>
         <Link href={getTenantPath(tenant.slug)}>
           <Image src={NewChatIcon} alt="New chat" />
         </Link>
@@ -174,7 +199,7 @@ export default function Header({
       {isAnonymous ? (
         <div className="flex">
           <Link
-            className="rounded-lg bg-[#D946EF] text-white px-4 py-2.5 mr-6 flex items-center"
+            className="border-2 border-black bg-primary text-primary-foreground px-4 py-2.5 mr-6 flex items-center hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all font-bold"
             href={getSignUpPath()}
           >
             Create my own chatbot
@@ -203,7 +228,7 @@ export default function Header({
                 {tenants.map((tenantItem, i) => (
                   <li
                     key={i}
-                    className="hover:bg-black hover:bg-opacity-5 px-4 py-3 rounded-lg cursor-pointer group"
+                    className="hover:bg-accent hover:text-accent-foreground border-2 border-transparent hover:border-black px-4 py-3 cursor-pointer group transition-colors"
                     onClick={() => handleProfileClick(tenantItem)}
                   >
                     <div className="flex items-center mb-1">
@@ -222,7 +247,7 @@ export default function Header({
                         {tenantItem.name}
                         <div className="text-xs text-gray-500 flex items-center gap-2">
                           {tenantItem.profileRole === "admin" && (
-                            <span className="bg-[#989898] text-[#F5F5F7] w-[45px] h-[18px] rounded-[4px] px-1 py-0.5 text-[12px] font-medium flex items-center justify-center">
+                            <span className="bg-secondary text-secondary-foreground border border-black w-[45px] h-[18px] px-1 py-0.5 text-[12px] font-bold flex items-center justify-center">
                               Admin
                             </span>
                           )}

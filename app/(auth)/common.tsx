@@ -6,6 +6,8 @@ export function Title({ children, className }: { children: ReactNode; className?
   return <div className={cn("self-start text-[24px] font-bold", className)}>{children}</div>;
 }
 
+import { Button as UIButton } from "@/components/ui/button";
+
 export function Button({
   children,
   className,
@@ -16,12 +18,12 @@ export function Button({
   disabled?: boolean;
 }) {
   return (
-    <button
-      className={cn("text-md text-white text-[16px] font-semibold bg-[#D946EF] rounded-[54px] py-2 w-full", className)}
+    <UIButton
+      className={cn("w-full text-md text-[16px] font-bold py-6", className)}
       disabled={disabled}
     >
       {children}
-    </button>
+    </UIButton>
   );
 }
 

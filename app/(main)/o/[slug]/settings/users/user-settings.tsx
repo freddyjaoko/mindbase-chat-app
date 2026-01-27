@@ -61,7 +61,7 @@ const roleItems = [
 
 const RoleSelectItem = ({ item }: { item: { name: string; value: MemberRole; description: string } }) => (
   <>
-    <SelectItem className="hover:bg-[#F5F5F7]" value={item.value}>
+    <SelectItem className="hover:bg-accent hover:text-accent-foreground rounded-none cursor-pointer" value={item.value}>
       <div>{item.name}</div>
     </SelectItem>
     <div className="px-2 pt-1 pb-2 text-xs cursor-default">{item.description}</div>
@@ -377,7 +377,7 @@ export default function UserSettings({
                           <FormControl>
                             <textarea
                               placeholder="Email addresses, comma separated"
-                              className="w-full rounded-lg border border-[#D946EF] bg-[#F5F5F7] px-3 py-2 shadow-none min-h-[80px] max-h-[200px] resize-none overflow-y-auto"
+                              className="w-full rounded-none border-2 border-black bg-transparent px-3 py-2 shadow-none min-h-[80px] max-h-[200px] resize-none overflow-y-auto focus:outline-none focus:ring-2 focus:ring-black focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
                               onChange={(e) => handleEmailsChange(e.target.value)}
                             />
                           </FormControl>

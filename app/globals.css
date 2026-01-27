@@ -9,29 +9,42 @@ body {
 
 @layer base {
   :root {
-    /* Light mode */
-    --background: 0 0% 100%;         /* white */
-    --foreground: 0 0% 10%;          /* near-black */
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 10%;
+    /* Bauhaus Palette - Light (Default) */
+    --background: 0 0% 98%;          /* #FAFAFA - Almost white */
+    --foreground: 0 0% 0%;           /* #000000 - Pure Black */
+    
+    --card: 0 0% 100%;               /* #FFFFFF */
+    --card-foreground: 0 0% 0%;      /* #000000 */
+    
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 10%;
-    --primary: 0 0% 0%;              /* black */
-    --primary-foreground: 0 0% 100%; /* white */
-    --secondary: 0 0% 95%;           /* light gray */
-    --secondary-foreground: 0 0% 10%;
-    --muted: 0 0% 90%;
-    --muted-foreground: 0 0% 40%;
-    --accent: 0 0% 90%;
-    --accent-foreground: 0 0% 10%;
-    --destructive: 0 80% 40%;        /* dark red for warnings */
+    --popover-foreground: 0 0% 0%;
+    
+    /* Primary - Bauhaus Red */
+    --primary: 356 71% 50%;          /* #D92525 */
+    --primary-foreground: 0 0% 100%;
+    
+    /* Secondary - Bauhaus Blue */
+    --secondary: 216 70% 36%;        /* #1C4F9E */
+    --secondary-foreground: 0 0% 100%;
+    
+    /* Accent - Bauhaus Yellow */
+    --accent: 49 100% 50%;           /* #FFD400 */
+    --accent-foreground: 0 0% 0%;
+    
+    /* Muted/Neutral */
+    --muted: 0 0% 90%;               /* Light Grey */
+    --muted-foreground: 0 0% 30%;    /* Dark Grey text */
+    
+    --destructive: 0 80% 40%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 85%;
-    --input: 0 0% 85%;
-    --ring: 0 0% 0%;
-    --radius: 0.5rem;
+    
+    --border: 0 0% 0%;               /* #000000 - Strong Black Borders */
+    --input: 0 0% 100%;              /* White inputs */
+    --ring: 0 0% 0%;                 /* Black focus rings */
+    
+    --radius: 0px;                   /* Sharp geometric edges */
 
-    /* Add explicit color mappings for Tailwind classes */
+    /* Tailwind explicit mapping */
     --tw-color-primary: hsl(var(--primary));
     --tw-color-primary-foreground: hsl(var(--primary-foreground));
     --tw-color-destructive: hsl(var(--destructive));
@@ -43,26 +56,35 @@ body {
   }
   
   .dark {
-    /* Dark mode */
-    --background: 0 0% 5%;           /* near-black */
-    --foreground: 0 0% 95%;          /* white text */
-    --card: 0 0% 10%;
-    --card-foreground: 0 0% 95%;
+    /* Bauhaus Palette - Dark Mode (Inverted but keeping the vibe) */
+    --background: 0 0% 5%;           /* #0D0D0D */
+    --foreground: 0 0% 98%;          /* #FAFAFA */
+    
+    --card: 0 0% 10%;                /* Dark Grey Card */
+    --card-foreground: 0 0% 98%;
+    
     --popover: 0 0% 10%;
-    --popover-foreground: 0 0% 95%;
-    --primary: 0 0% 100%;            /* white */
-    --primary-foreground: 0 0% 10%;
-    --secondary: 0 0% 15%;
-    --secondary-foreground: 0 0% 95%;
-    --muted: 0 0% 20%;
-    --muted-foreground: 0 0% 60%;
-    --accent: 0 0% 20%;
-    --accent-foreground: 0 0% 95%;
-    --destructive: 0 80% 40%;
+    --popover-foreground: 0 0% 98%;
+    
+    /* Keep the bold colors */
+    --primary: 356 71% 50%;          /* #D92525 */
+    --primary-foreground: 0 0% 100%;
+    
+    --secondary: 49 100% 50%;        /* Yellow as secondary in dark mode for contrast */
+    --secondary-foreground: 0 0% 0%;
+    
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 70%;
+    
+    --accent: 216 70% 36%;           /* Blue accent */
+    --accent-foreground: 0 0% 100%;
+    
+    --destructive: 0 62% 30%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
-    --ring: 0 0% 100%;
+    
+    --border: 0 0% 98%;              /* White borders in dark mode */
+    --input: 0 0% 10%;
+    --ring: 0 0% 98%;
 
     --tw-color-primary: hsl(var(--primary));
     --tw-color-primary-foreground: hsl(var(--primary-foreground));

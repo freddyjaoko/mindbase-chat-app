@@ -4,6 +4,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { signIn } from "@/lib/auth-client";
 import { getStartPath } from "@/lib/paths";
 
@@ -43,18 +44,18 @@ export default function SignIn({ redirectTo, reset }: { redirectTo?: string; res
   return (
     <form className="flex flex-col w-full" method="POST" onSubmit={handleSubmit}>
       {error && <div className="text-red-500 text-center mb-4">{error}</div>}
-      <input
+      <Input
         name="email"
         type="email"
         placeholder="Email"
-        className="w-full border rounded-[6px] text-[16px] placeholder-[#74747A] px-4 py-2 mb-4"
+        className="mb-4"
         onChange={handleEmailChange}
       />
-      <input
+      <Input
         name="password"
         type="password"
         placeholder="Password"
-        className="w-full border rounded-[6px] text-[16px] placeholder-[#74747A] px-4 py-2 mb-8"
+        className="mb-8"
         onChange={handlePasswordChange}
       />
       <Button>Sign in</Button>

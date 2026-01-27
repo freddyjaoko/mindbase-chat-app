@@ -23,7 +23,7 @@ export default async function MainLayout({ children, params }: Props) {
   const displayWelcome = !user.completedWelcomeFlowAt && profile.role == "admin";
 
   return (
-    <div className="h-screen w-full flex flex-col items-center bg-white overflow-hidden">
+    <div className="h-screen w-full flex flex-col items-center bg-background overflow-hidden">
       <Header
         isAnonymous={user.isAnonymous}
         tenant={tenant}
