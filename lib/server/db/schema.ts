@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import {
   AnyPgColumn,
   boolean,
@@ -13,7 +14,6 @@ import {
   uuid,
   index,
 } from "drizzle-orm/pg-core";
-import { relations } from "drizzle-orm";
 import { z } from "zod";
 
 import { stepResultSchema, finalAnswerSchema } from "@/components/agentic-retriever/types";

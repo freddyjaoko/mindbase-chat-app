@@ -13,19 +13,19 @@ interface ReactElement {
   };
 }
 
+const getCodeContent = (children: React.ReactNode): string => {
+  if (typeof children === "string") return children;
+  if (Array.isArray(children)) {
+    return children.map((child) => getCodeContent(child)).join("");
+  }
+  if (children && typeof children === "object" && "props" in children) {
+    return getCodeContent((children as ReactElement).props.children);
+  }
+  return "";
+};
+
 const CodeBlock = ({ children, className, ...props }: CodeBlockProps) => {
   const [copied, setCopied] = useState(false);
-
-  const getCodeContent = (children: React.ReactNode): string => {
-    if (typeof children === "string") return children;
-    if (Array.isArray(children)) {
-      return children.map((child) => getCodeContent(child)).join("");
-    }
-    if (children && typeof children === "object" && "props" in children) {
-      return getCodeContent((children as ReactElement).props.children);
-    }
-    return "";
-  };
 
   const code = useMemo(() => getCodeContent(children).replace(/\n$/, ""), [children]);
 

@@ -1,14 +1,12 @@
 "use client";
 
+
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { MoreHorizontal, RefreshCw, Trash } from "lucide-react";
-import { Inter } from "next/font/google";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
-
-const inter = Inter({ subsets: ["latin"] });
 
 interface Props {
   id: string;
@@ -61,7 +59,7 @@ export default function ManageConnectionMenu({ id, tenant, connectionStatus }: P
           <MoreHorizontal />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className={inter.className}>
+      <DropdownMenuContent align="end">
         <DropdownMenuItem
           onSelect={isSyncDisabled ? undefined : syncConnection}
           disabled={isSyncDisabled}

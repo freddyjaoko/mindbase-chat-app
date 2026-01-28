@@ -4,7 +4,7 @@ import { formatDistanceToNow } from "date-fns";
 import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import Dropzone from "react-dropzone";
 import { toast } from "sonner";
 
@@ -71,34 +71,37 @@ export default function FilesTable({
     setTotalDocuments((prev) => prev - 1);
   };
 
-  const fetchFiles = async (cursor: string | null) => {
-    if (isLoading) return;
-    setIsLoading(true);
+  const fetchFiles = useCallback(
+    async (cursor: string | null) => {
+      if (isLoading) return;
+      setIsLoading(true);
 
-    try {
-      const response = await fetch(`/api/tenants/current/documents?cursor=${cursor ?? ""}`, {
-        headers: { tenant: tenant.slug },
-      });
-      const data = await response.json();
+      try {
+        const response = await fetch(`/api/tenants/current/documents?cursor=${cursor ?? ""}`, {
+          headers: { tenant: tenant.slug },
+        });
+        const data = await response.json();
 
-      if (data.documents) {
-        setAllFiles(data.documents);
+        if (data.documents) {
+          setAllFiles(data.documents);
+        }
+
+        if (data.totalCount) {
+          setTotalDocuments(data.totalCount);
+        }
+      } catch (error) {
+        console.error("Error loading files:", error);
+      } finally {
+        setIsLoading(false);
       }
-
-      if (data.totalCount) {
-        setTotalDocuments(data.totalCount);
-      }
-    } catch (error) {
-      console.error("Error loading files:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    },
+    [isLoading, tenant.slug],
+  );
 
   // Fetch files when cursor changes
   useEffect(() => {
     fetchFiles(currentCursor);
-  }, [currentCursor]);
+  }, [currentCursor, fetchFiles]);
 
   // Initial fetch when component mounts to respect URL cursor
   useEffect(() => {
@@ -162,7 +165,7 @@ export default function FilesTable({
     if (totalFileUploadCount > 0) {
       fetchFiles(null);
     }
-  }, [totalFileUploadCount]);
+  }, [totalFileUploadCount, fetchFiles]);
 
   const handleNavigation = (cursor: string | null) => {
     if (cursor === null) {
@@ -279,8 +282,8 @@ export default function FilesTable({
                       <TableCell className="font-medium">{file.name}</TableCell>
                       <TableCell>
                         {file.metadata?.source_type &&
-                          file.metadata.source_type !== "manual" &&
-                          CONNECTOR_MAP[file.metadata.source_type] ? (
+                        file.metadata.source_type !== "manual" &&
+                        CONNECTOR_MAP[file.metadata.source_type] ? (
                           <div className="flex items-center gap-2">
                             <Image
                               src={CONNECTOR_MAP[file.metadata.source_type][1]}

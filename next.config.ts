@@ -20,6 +20,7 @@ const nextConfig: NextConfig = {
   reactStrictMode: false,
   // Your existing config...
   output: "standalone",
+  serverExternalPackages: ["handlebars"],
   experimental: {
     authInterrupts: true,
   },

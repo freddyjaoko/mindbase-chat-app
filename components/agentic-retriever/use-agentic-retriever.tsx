@@ -476,7 +476,7 @@ export default function useAgenticRetriever({
       },
       signal: abortControllerRef.current?.signal,
     });
-  }, [dispatch, abortControllerRef, state.query, tenantSlug, onStart]);
+  }, [dispatch, abortControllerRef, state.query, tenantSlug, onStart, state.effort]);
 
   useEffect(() => {
     if (state.query) {

@@ -1,15 +1,7 @@
-import { Inter, Inter_Tight } from "next/font/google";
 import Image from "next/image";
 
 import RagieLogo from "@/components/ragie-logo";
 import * as settings from "@/lib/server/settings";
-
-const inter_tight = Inter_Tight({
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const inter = Inter({ subsets: ["latin"] });
 
 export default function Layout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
