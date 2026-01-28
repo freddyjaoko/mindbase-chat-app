@@ -4,7 +4,7 @@ import { formatDistanceToNow } from "date-fns";
 import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import Dropzone from "react-dropzone";
 import { toast } from "sonner";
 
@@ -71,34 +71,37 @@ export default function FilesTable({
     setTotalDocuments((prev) => prev - 1);
   };
 
-  const fetchFiles = async (cursor: string | null) => {
-    if (isLoading) return;
-    setIsLoading(true);
+  const fetchFiles = useCallback(
+    async (cursor: string | null) => {
+      if (isLoading) return;
+      setIsLoading(true);
 
-    try {
-      const response = await fetch(`/api/tenants/current/documents?cursor=${cursor ?? ""}`, {
-        headers: { tenant: tenant.slug },
-      });
-      const data = await response.json();
+      try {
+        const response = await fetch(`/api/tenants/current/documents?cursor=${cursor ?? ""}`, {
+          headers: { tenant: tenant.slug },
+        });
+        const data = await response.json();
 
-      if (data.documents) {
-        setAllFiles(data.documents);
+        if (data.documents) {
+          setAllFiles(data.documents);
+        }
+
+        if (data.totalCount) {
+          setTotalDocuments(data.totalCount);
+        }
+      } catch (error) {
+        console.error("Error loading files:", error);
+      } finally {
+        setIsLoading(false);
       }
-
-      if (data.totalCount) {
-        setTotalDocuments(data.totalCount);
-      }
-    } catch (error) {
-      console.error("Error loading files:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    },
+    [isLoading, tenant.slug],
+  );
 
   // Fetch files when cursor changes
   useEffect(() => {
     fetchFiles(currentCursor);
-  }, [currentCursor]);
+  }, [currentCursor, fetchFiles]);
 
   // Initial fetch when component mounts to respect URL cursor
   useEffect(() => {
@@ -162,7 +165,7 @@ export default function FilesTable({
     if (totalFileUploadCount > 0) {
       fetchFiles(null);
     }
-  }, [totalFileUploadCount]);
+  }, [totalFileUploadCount, fetchFiles]);
 
   const handleNavigation = (cursor: string | null) => {
     if (cursor === null) {
@@ -239,7 +242,7 @@ export default function FilesTable({
               <button
                 onClick={handlePreviousPage}
                 disabled={!currentCursor && cursorHistory.length === 0}
-                className={`p-1 rounded-md flex items-center gap-1 ${!currentCursor && cursorHistory.length === 0 ? "text-gray-400 cursor-not-allowed" : "text-gray-600 hover:bg-gray-100"}`}
+                className={`p-1 rounded-none border border-transparent hover:border-black flex items-center gap-1 ${!currentCursor && cursorHistory.length === 0 ? "text-gray-400 cursor-not-allowed" : "text-gray-600 hover:bg-gray-100"}`}
               >
                 <ChevronLeft className="h-5 w-5" />
                 <span className="text-sm">Previous 50</span>
@@ -247,7 +250,7 @@ export default function FilesTable({
               <button
                 onClick={() => handleNavigation(nextCursor)}
                 disabled={!nextCursor}
-                className={`p-1 rounded-md flex items-center gap-1 ${!nextCursor ? "text-gray-400 cursor-not-allowed" : "text-gray-600 hover:bg-gray-100"}`}
+                className={`p-1 rounded-none border border-transparent hover:border-black flex items-center gap-1 ${!nextCursor ? "text-gray-400 cursor-not-allowed" : "text-gray-600 hover:bg-gray-100"}`}
               >
                 <span className="text-sm">Next 50</span>
                 <ChevronRight className="h-5 w-5" />
@@ -255,7 +258,7 @@ export default function FilesTable({
             </div>
           </div>
           <div
-            className={`flex-1 overflow-y-auto relative ${isDragActive ? "after:content-[''] after:absolute after:inset-0 after:bg-[#F0F7FF] after:border-2 after:border-[#007AFF] after:border-dashed after:rounded-lg after:pointer-events-none" : ""}`}
+            className={`flex-1 overflow-y-auto relative ${isDragActive ? "after:content-[''] after:absolute after:inset-0 after:bg-[#F0F7FF] after:border-2 after:border-[#007AFF] after:border-dashed after:rounded-none after:pointer-events-none" : ""}`}
           >
             {isLoading ? (
               <div className="h-full w-full flex items-center justify-center">

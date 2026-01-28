@@ -79,8 +79,8 @@ const TextAreaField = ({ form, name, label, className, help, hasDefault, descrip
           </FormLabel>
           {description && <p className="text-sm text-muted-foreground mb-3">{description}</p>}
           <FormControl>
-            <div className="rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm">
-              <AutosizeTextarea className="pt-1.5" minHeight={80} {...field} />
+            <div className="rounded-none border-2 border-black bg-transparent px-3 py-1 text-base shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-colors placeholder:text-muted-foreground focus-within:ring-0 focus-within:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm">
+              <AutosizeTextarea className="pt-1.5 focus:ring-0" minHeight={80} {...field} />
             </div>
           </FormControl>
           <FormMessage />
@@ -158,7 +158,7 @@ export default function PromptSettings({ tenant }: Props) {
         <div className="flex justify-end">
           <button
             type="reset"
-            className="rounded-lg disabled:opacity-[55%] px-4 py-2.5 mr-3"
+            className="rounded-none disabled:opacity-[55%] px-4 py-2.5 mr-3 border-2 border-transparent hover:border-black transition-colors font-bold"
             disabled={!form.formState.isDirty}
             onClick={handleCancel}
           >
@@ -166,7 +166,7 @@ export default function PromptSettings({ tenant }: Props) {
           </button>
           <button
             type="button"
-            className="rounded-lg bg-[#D946EF] text-white disabled:opacity-[55%] px-4 py-2.5 flex items-center"
+            className="rounded-none bg-[#D946EF] text-white disabled:opacity-[55%] px-4 py-2.5 flex items-center border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all font-bold"
             disabled={!form.formState.isDirty || isLoading}
             onClick={form.handleSubmit(onSubmit)}
           >

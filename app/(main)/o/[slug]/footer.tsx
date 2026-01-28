@@ -26,9 +26,13 @@ export enum AppLocation {
 
 export function NavButton({ alt, src, className }: { alt: string; src: any; className?: string }) {
   return (
-    <div className={cn("flex flex-col items-center text-black p-2", className)}>
+    <div className={cn(
+      "flex flex-col items-center justify-center p-2 rounded-none border-2 border-transparent hover:border-black transition-all min-w-[80px]",
+      "hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px]",
+      className
+    )}>
       <Image alt={alt} src={src} className="mb-1 w-6 h-6" />
-      <div className="text-[12px]">{alt}</div>
+      <div className="text-[12px] font-bold uppercase tracking-wider">{alt}</div>
     </div>
   );
 }
@@ -60,7 +64,7 @@ export default function Footer({ className, tenant }: Props) {
   return (
     <div
       className={cn(
-        "flex justify-around md:justify-start w-full md:w-auto bg-white md:bg-transparent border-t md:border-none py-2 md:py-0",
+        "flex justify-around md:justify-start w-full md:w-auto bg-white md:bg-transparent py-2 md:py-0",
         className,
       )}
     >

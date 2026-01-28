@@ -1,9 +1,14 @@
 import { ReactNode } from "react";
 
+import { Button as UIButton } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export function Title({ children, className }: { children: ReactNode; className?: string }) {
-  return <div className={cn("self-start text-[24px] font-bold", className)}>{children}</div>;
+  return (
+    <div className={cn("self-start text-[28px] font-extrabold uppercase tracking-tight leading-tight", className)}>
+      {children}
+    </div>
+  );
 }
 
 export function Button({
@@ -16,12 +21,17 @@ export function Button({
   disabled?: boolean;
 }) {
   return (
-    <button
-      className={cn("text-md text-white text-[16px] font-semibold bg-[#D946EF] rounded-[54px] py-2 w-full", className)}
+    <UIButton
+      className={cn(
+        "w-full text-md text-[16px] font-bold py-6 rounded-none border-2 border-transparent uppercase tracking-wider",
+        "bg-black text-white hover:bg-gray-800",
+        "hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:border-black transition-all transform active:translate-y-[2px] active:translate-x-[2px] active:shadow-none",
+        className,
+      )}
       disabled={disabled}
     >
       {children}
-    </button>
+    </UIButton>
   );
 }
 

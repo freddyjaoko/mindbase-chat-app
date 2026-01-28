@@ -337,6 +337,13 @@
       "when": 1758562002504,
       "tag": "0047_confused_naoko",
       "breakpoints": true
+    },
+    {
+      "idx": 48,
+      "version": "7",
+      "when": 1769541508355,
+      "tag": "0048_far_lionheart",
+      "breakpoints": true
     }
   ]
 }

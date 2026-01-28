@@ -22,7 +22,7 @@ function getDisplayName(model: string) {
   return "unsupported model";
 }
 
-export const Citation = ({ source, onClick = () => {} }: { source: SourceMetadata; onClick?: () => void }) => {
+export const Citation = ({ source, onClick = () => { } }: { source: SourceMetadata; onClick?: () => void }) => {
   const connector = CONNECTOR_MAP[source.source_type];
   const isAudio =
     source.documentName?.toLowerCase() &&
@@ -43,7 +43,7 @@ export const Citation = ({ source, onClick = () => {} }: { source: SourceMetadat
 
   return (
     <button
-      className="rounded-[20px] flex items-center border px-3 py-1.5 mr-3 mb-3 hover:bg-gray-100"
+      className="rounded-none flex items-center border-2 border-black px-3 py-1.5 mr-3 mb-3 bg-white hover:bg-accent hover:text-accent-foreground hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
       onClick={onClick}
     >
       {connector && <Image src={connector[1]} alt={connector[0]} width={24} height={24} className="mr-1" />}
@@ -97,7 +97,7 @@ const CodeBlock = ({ children, className, ...props }: CodeBlockProps) => {
         <code>{children}</code>
         <button
           onClick={copyToClipboard}
-          className="absolute top-2 right-2 p-2 rounded-md bg-gray-700/50 hover:bg-gray-700/70 text-gray-200 opacity-0 group-hover:opacity-100 transition-opacity"
+          className="absolute top-2 right-2 p-2 rounded-none border border-white/20 bg-gray-700/50 hover:bg-gray-700/70 text-gray-200 opacity-0 group-hover:opacity-100 transition-opacity"
           title="Copy to clipboard"
         >
           {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
@@ -136,16 +136,18 @@ export default function AssistantMessage({
   return (
     <div className="flex">
       <div className="mb-8 shrink-0">
-        <Logo
-          name={name}
-          url={logoUrl}
-          width={40}
-          height={40}
-          className="text-[13px] h-[40px] w-[40px]"
-          tenantId={tenantId}
-        />
+        <div className="border-2 border-black p-1 bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+          <Logo
+            name={name}
+            url={logoUrl}
+            width={32}
+            height={32}
+            className="text-[13px] h-[32px] w-[32px]"
+            tenantId={tenantId}
+          />
+        </div>
       </div>
-      <div className="self-start mb-6 rounded-md ml-7 max-w-[calc(100%-60px)]">
+      <div className="self-start mb-6 rounded-none border-2 border-black ml-7 max-w-[calc(100%-60px)] bg-white p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
         {content?.length ? (
           hasSVG ? (
             // Render SVG markup directly

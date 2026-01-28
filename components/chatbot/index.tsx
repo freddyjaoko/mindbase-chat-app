@@ -40,7 +40,9 @@ type SystemMessage = { content: string; role: "system" };
 type Message = AiMessage | UserMessage | SystemMessage;
 
 const UserMessage = ({ content }: { content: string }) => (
-  <div className="mb-6 rounded-md px-4 py-2 self-end bg-[#F5F5F7] max-w-[70%]">{content}</div>
+  <div className="mb-6 rounded-none px-4 py-2 self-end bg-black text-white max-w-[70%] font-medium shadow-[4px_4px_0px_0px_rgba(217,70,239,1)] border-2 border-black">
+    {content}
+  </div>
 );
 
 interface Props {
@@ -93,6 +95,12 @@ export default function Chatbot({ tenant, conversationId, initMessage, onSelecte
     setPastRuns,
     reset: agenticReset,
   } = useAgenticRetrieverContext();
+
+  // Use ref for steps to avoid dependency loop in callbacks
+  const stepsRef = useRef(steps);
+  useEffect(() => {
+    stepsRef.current = steps;
+  }, [steps]);
 
   const handleAgenticStart = useCallback(
     async (payload: { runId: string; query: string; effort: string }) => {
@@ -164,7 +172,7 @@ export default function Chatbot({ tenant, conversationId, initMessage, onSelecte
         runId: payload.runId,
         timestamp: new Date().toISOString(),
         stepTiming: payload.stepTiming, // Use stepTiming from payload
-        steps: payload.result.steps || steps, // Prefer result steps
+        steps: payload.result.steps || stepsRef.current, // Prefer result steps, fallback to current steps ref
         query: payload.query,
         result: payload.result,
         effort: payload.effort,
@@ -180,23 +188,26 @@ export default function Chatbot({ tenant, conversationId, initMessage, onSelecte
 
       setAgenticRunId(null);
     },
-    [],
+    [conversationId, tenant.id, stepsRef], // stepsRef is stable
   );
 
-  const handleAgenticError = useCallback(async (payload: string) => {
-    const myMessage: AiMessage = {
-      content: `Agentic response failed: ${payload}`,
-      role: "assistant",
-      id: "123", // run won't be found by id, will show failed state
-      sources: [],
-      model: "Deep Search",
-      type: "agentic",
-    };
+  const handleAgenticError = useCallback(
+    async (payload: string) => {
+      const myMessage: AiMessage = {
+        content: `Agentic response failed: ${payload}`,
+        role: "assistant",
+        id: "123", // run won't be found by id, will show failed state
+        sources: [],
+        model: "Deep Search",
+        type: "agentic",
+      };
 
-    setMessages((prev) => [...prev, myMessage]);
-    agenticReset();
-    return Promise.resolve();
-  }, []);
+      setMessages((prev) => [...prev, myMessage]);
+      agenticReset();
+      return Promise.resolve();
+    },
+    [agenticReset],
+  );
 
   useEffect(() => {
     const unregister = registerCallbacks({
@@ -398,6 +409,25 @@ export default function Chatbot({ tenant, conversationId, initMessage, onSelecte
     <div className="flex h-full w-full items-center flex-col">
       <div ref={container} className="flex flex-col h-full w-full items-center overflow-y-auto">
         <div className="flex flex-col h-full w-full p-4 max-w-[717px]">
+          {allMessages.length === 0 && !isLoading && (
+            <div className="flex flex-col items-center justify-center flex-1 h-full text-center pb-20 opacity-50 select-none pointer-events-none">
+              <div className="w-24 h-24 mb-6 rounded-none border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center bg-white">
+                <svg
+                  width="48"
+                  height="48"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="square"
+                >
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                </svg>
+              </div>
+              <h2 className="text-3xl font-bold mb-2 uppercase tracking-wide">Ready to Chat</h2>
+              <p className="text-lg font-medium">Ask away. I&apos;m listening.</p>
+            </div>
+          )}
           {allMessages.map((message, i) =>
             message.role === "user" ? (
               <UserMessage key={i} content={message.content} />

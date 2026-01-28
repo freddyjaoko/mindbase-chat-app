@@ -2,7 +2,7 @@
 
 import { Loader2, ExternalLink, CheckCircle, AlertCircle, Hash, Users, Lock, Plus, X, Settings } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -60,7 +60,7 @@ export default function SlackSettings({ tenant, slackConfigured }: Props) {
 
   const isConnected = tenant.slackEnabled && tenant.slackBotToken;
 
-  async function fetchChannels() {
+  const fetchChannels = useCallback(async () => {
     if (!isConnected) return;
 
     setLoadingChannels(true);
@@ -76,13 +76,13 @@ export default function SlackSettings({ tenant, slackConfigured }: Props) {
     } finally {
       setLoadingChannels(false);
     }
-  }
+  }, [isConnected, tenant.slug]);
 
   useEffect(() => {
     if (isConnected) {
       fetchChannels();
     }
-  }, [isConnected]);
+  }, [isConnected, fetchChannels]);
 
   async function handleChannelAction(channelId: string, action: "join" | "leave") {
     setJoiningChannels((prev) => new Set(prev).add(channelId));

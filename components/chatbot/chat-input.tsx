@@ -173,17 +173,20 @@ export default function ChatInput(props: ChatInputProps) {
   return (
     <div className="flex w-full flex-col gap-2">
       <div className="flex w-full items-end">
-        <AutosizeTextarea
-          className="pt-1.5"
-          ref={ref}
-          placeholder="Send a message"
-          minHeight={4}
-          value={value}
-          onKeyDown={handleKeyDown}
-          onChange={(event) => {
-            setValue(event.target.value);
-          }}
-        />
+        <div className="w-full relative">
+          <AutosizeTextarea
+            className="pt-3 pb-3 px-4 rounded-none border-2 border-black focus:ring-0 focus:outline-none focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-shadow min-h-[50px] bg-white resize-none"
+            ref={ref}
+            placeholder="Send a message"
+            minHeight={50}
+            maxHeight={200}
+            value={value}
+            onKeyDown={handleKeyDown}
+            onChange={(event) => {
+              setValue(event.target.value);
+            }}
+          />
+        </div>
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -191,16 +194,23 @@ export default function ChatInput(props: ChatInputProps) {
                 onClick={() => handleSubmit(value)}
                 disabled={props.tenantPaidStatus === "expired"}
                 className={cn(
-                  "transition-opacity",
-                  props.tenantPaidStatus === "expired" && "opacity-50 cursor-not-allowed",
+                  "ml-3 h-[50px] w-[50px] flex items-center justify-center border-2 border-black bg-[#D946EF] hover:bg-[#C026D3] active:translate-x-[2px] active:translate-y-[2px] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:shadow-none transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none",
                 )}
               >
-                <svg width="26" height="24" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
-                    d="M24.3125 12L11.6731 12M6.34685 16.1693H3.91254M6.34685 12.1464H1.51254M6.34685 8.12356H3.91254M10.6199 4.59596L23.8753 11.0228C24.6916 11.4186 24.6916 12.5814 23.8753 12.9772L10.6199 19.4041C9.71186 19.8443 8.74666 18.9161 9.15116 17.9915L11.582 12.4353C11.7034 12.1578 11.7034 11.8422 11.582 11.5647L9.15116 6.00848C8.74666 5.08391 9.71186 4.15568 10.6199 4.59596Z"
-                    stroke="black"
-                    strokeWidth="2"
-                    strokeLinecap="round"
+                    d="M22 2L11 13"
+                    stroke="white"
+                    strokeWidth="3"
+                    strokeLinecap="square"
+                    strokeLinejoin="miter"
+                  />
+                  <path
+                    d="M22 2L15 22L11 13L2 9L22 2Z"
+                    stroke="white"
+                    strokeWidth="3"
+                    strokeLinecap="square"
+                    strokeLinejoin="miter"
                   />
                 </svg>
               </button>

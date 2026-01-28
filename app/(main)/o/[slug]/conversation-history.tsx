@@ -34,7 +34,9 @@ const ConversationPopoverContent = ({ children }: { children: React.ReactNode })
     alignOffset={-46}
     side="right"
     sideOffset={-16}
-    className={cn("bg-[#F5F5F7] w-[100px] border border-[#D7D7D7] shadow-none rounded-[6px] p-3")}
+    className={cn(
+      "bg-card w-[100px] border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rounded-none p-3",
+    )}
   >
     {children}
   </PopoverContent>
@@ -200,7 +202,7 @@ export default function ConversationHistory({ className, tenant }: Props) {
                     {groupedConversations.today.map((conversation, i) => (
                       <div
                         key={i}
-                        className="py-2 flex justify-between items-center hover:bg-gray-200 rounded-md transition-colors group pr-2"
+                        className="py-2 flex justify-between items-center hover:bg-accent hover:text-accent-foreground border-2 border-transparent hover:border-black rounded-none transition-all group pr-2"
                       >
                         <Link href={getConversationPath(tenant.slug, conversation.id)} className="flex-1 min-w-0 pl-3">
                           <div className="truncate pr-2 max-w-[calc(100%-24px)] text-[14px] font-medium">
@@ -243,7 +245,7 @@ export default function ConversationHistory({ className, tenant }: Props) {
                     {groupedConversations.thisMonth.map((conversation, i) => (
                       <div
                         key={i}
-                        className="py-2 flex justify-between items-center hover:bg-gray-200 rounded-md transition-colors group pr-2"
+                        className="py-2 flex justify-between items-center hover:bg-accent hover:text-accent-foreground border-2 border-transparent hover:border-black rounded-none transition-all group pr-2"
                       >
                         <Link href={getConversationPath(tenant.slug, conversation.id)} className="flex-1 min-w-0 pl-3">
                           <div className="truncate pr-2 max-w-[calc(100%-24px)] text-[14px] font-medium">
@@ -294,7 +296,7 @@ export default function ConversationHistory({ className, tenant }: Props) {
                       {monthConversations.map((conversation, i) => (
                         <div
                           key={i}
-                          className="py-2 flex justify-between items-center hover:bg-gray-200 rounded-md transition-colors group pr-2"
+                          className="py-2 flex justify-between items-center hover:bg-accent hover:text-accent-foreground border-2 border-transparent hover:border-black rounded-none transition-all group pr-2"
                         >
                           <Link
                             href={getConversationPath(tenant.slug, conversation.id)}
@@ -343,7 +345,7 @@ export default function ConversationHistory({ className, tenant }: Props) {
                       {yearConversations.map((conversation, i) => (
                         <div
                           key={i}
-                          className="py-2 flex justify-between items-center hover:bg-gray-200 rounded-md transition-colors group pr-2"
+                          className="py-2 flex justify-between items-center hover:bg-accent hover:text-accent-foreground border-2 border-transparent hover:border-black rounded-none transition-all group pr-2"
                         >
                           <Link
                             href={getConversationPath(tenant.slug, conversation.id)}

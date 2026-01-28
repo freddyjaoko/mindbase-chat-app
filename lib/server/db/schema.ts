@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import {
   AnyPgColumn,
   boolean,
@@ -150,6 +151,7 @@ export const profiles = pgTable(
       .references(() => users.id, { onDelete: "cascade" })
       .notNull(),
     role: rolesEnum("role").notNull(),
+    insightModel: text("insight_model").default(DEFAULT_MODEL).$type<z.infer<typeof modelSchema>>(),
   },
   (t) => ({
     unique_tenant_id_user_id: unique().on(t.tenantId, t.userId),
@@ -252,6 +254,22 @@ export const verifications = pgTable("verifications", {
   expiresAt: timestamp("expires_at").notNull(),
 });
 
+export const dailyBriefings = pgTable(
+  "daily_briefings",
+  {
+    ...baseTenantFields,
+    profileId: uuid("profile_id")
+      .references(() => profiles.id, { onDelete: "cascade" })
+      .notNull(),
+    content: text("content").notNull(),
+    model: text("model").notNull(),
+  },
+  (t) => ({
+    profileIdx: index("daily_briefings_profile_idx").on(t.profileId),
+    tenantProfileIdx: index("daily_briefings_tenant_profile_idx").on(t.tenantId, t.profileId),
+  }),
+);
+
 export const authenticators = pgTable(
   "authenticators",
   {
@@ -276,3 +294,34 @@ export const authenticators = pgTable(
   ],
 );
 /** End Auth.js schema */
+
+export const conversationsRelations = relations(conversations, ({ one, many }) => ({
+  profile: one(profiles, {
+    fields: [conversations.profileId],
+    references: [profiles.id],
+  }),
+  messages: many(messages),
+}));
+
+export const messagesRelations = relations(messages, ({ one }) => ({
+  conversation: one(conversations, {
+    fields: [messages.conversationId],
+    references: [conversations.id],
+  }),
+}));
+
+export const profilesRelations = relations(profiles, ({ one, many }) => ({
+  user: one(users, {
+    fields: [profiles.userId],
+    references: [users.id],
+  }),
+  conversations: many(conversations),
+  dailyBriefings: many(dailyBriefings),
+}));
+
+export const dailyBriefingsRelations = relations(dailyBriefings, ({ one }) => ({
+  profile: one(profiles, {
+    fields: [dailyBriefings.profileId],
+    references: [profiles.id],
+  }),
+}));

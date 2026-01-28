@@ -83,13 +83,13 @@ export default function DataPageClient({
         <TabsList className="w-full justify-start bg-transparent gap-2">
           <TabsTrigger
             value="files"
-            className="text-sm font-medium text-[#1D1D1F] data-[state=active]:bg-[#27272A] data-[state=active]:text-white data-[state=active]:rounded-[32px] data-[state=active]:w-[55px] data-[state=active]:h-[36px] data-[state=active]:py-[8px] data-[state=active]:px-[12px] data-[state=active]:shadow-none"
+            className="text-sm font-bold text-[#1D1D1F] data-[state=active]:bg-transparent data-[state=active]:text-foreground data-[state=active]:rounded-none data-[state=active]:border-b-4 data-[state=active]:border-black data-[state=active]:shadow-none px-4 py-2"
           >
             Files
           </TabsTrigger>
           <TabsTrigger
             value="connections"
-            className="text-sm font-medium text-[#1D1D1F] data-[state=active]:bg-[#27272A] data-[state=active]:text-white data-[state=active]:rounded-[32px] data-[state=active]:w-[109px] data-[state=active]:h-[36px] data-[state=active]:py-[8px] data-[state=active]:px-[12px] data-[state=active]:shadow-none"
+            className="text-sm font-bold text-[#1D1D1F] data-[state=active]:bg-transparent data-[state=active]:text-foreground data-[state=active]:rounded-none data-[state=active]:border-b-4 data-[state=active]:border-black data-[state=active]:shadow-none px-4 py-2"
           >
             Connections
           </TabsTrigger>
