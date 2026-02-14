@@ -236,3 +236,17 @@ function renderSystemPrompt(context: SystemPromptContext, template?: string | nu
 
   return compiled({ ...context });
 }
+
+export async function getRawContext(
+  tenant: typeof schema.tenants.$inferSelect,
+  query: string,
+) {
+  const { client, partition } = await getRagieClientAndPartition(tenant.id);
+  const response = await client.retrievals.retrieve({
+    partition,
+    query,
+    topK: 10,
+  });
+
+  return response.scoredChunks.map(chunk => chunk.text).join("\n\n---\n\n");
+}
