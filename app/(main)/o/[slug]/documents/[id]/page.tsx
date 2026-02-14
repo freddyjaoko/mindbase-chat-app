@@ -1,5 +1,6 @@
 import { getDocument } from "@/lib/ai/document-service";
 import { authOrRedirect } from "@/lib/server/utils";
+
 import { DocumentEditor } from "./document-editor";
 
 interface Props {

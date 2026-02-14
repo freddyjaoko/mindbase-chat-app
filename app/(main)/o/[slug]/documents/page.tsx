@@ -56,7 +56,7 @@ export default async function DocumentsPage({ params }: Props) {
                         </div>
                         <h2 className="text-2xl font-bold mb-4 uppercase">No Documents Yet</h2>
                         <p className="max-w-md text-muted-foreground mb-8">
-                            Start your first automated document. We'll handle the heavy lifting while you focus on the details.
+                            Start your first automated document. We&apos;ll handle the heavy lifting while you focus on the details.
                         </p>
                         <Link href={`/o/${slug}/documents/new`}>
                             <Button

@@ -1,21 +1,28 @@
 "use client";
 
+import {
+  ChevronDown,
+  Download,
+  FileText,
+  MessageSquareShare,
+  Printer,
+} from "lucide-react";
 import { useState } from "react";
 import Markdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
-import "highlight.js/styles/github.css";
 
-import { Download, Printer, FileText, ChevronDown, MessageSquareShare } from "lucide-react";
-
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
+
 import { RefinementChat } from "./refinement-chat";
+
+import "highlight.js/styles/github.css";
 
 interface Document {
     id: string;
