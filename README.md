@@ -1,4 +1,5 @@
-![mindbase](https://github.com/user-attachments/assets/deb7c9fb-a416-4a3e-bee5-f94ae4ee25d3)
+<img width="890" height="930" alt="Screenshot 2026-04-21 130949" src="https://github.com/user-attachments/assets/56a5ff12-50a2-4780-ad93-021760db9e25" />
+<img width="1909" height="947" alt="Screenshot 2026-04-21 130829" src="https://github.com/user-attachments/assets/4e4a1bb7-f3fd-4293-bb88-139949947be0" />
 
 # Mindbase
 
