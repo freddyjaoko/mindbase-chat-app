@@ -1,8 +1,8 @@
-![base-chat](https://github.com/user-attachments/assets/7c1b8e04-39af-40d1-a673-b43340ba9f4c)
+![mindbase](https://github.com/user-attachments/assets/deb7c9fb-a416-4a3e-bee5-f94ae4ee25d3)
 
-# Base Chat
+# Mindbase
 
-Base Chat is a multi-tenant RAG chatbot that uses [Ragie Connect](https://www.ragie.ai/connectors?utm_source=basechat-readme) to allow users to connect and chat with their organization's knowledgebase. It serves as a reference application showcasing [Ragie](https://www.ragie.ai/?utm_source=basechat-readme)'s features.
+Mindbase is a multi-tenant RAG chatbot that uses [Ragie Connect](https://www.ragie.ai/connectors?utm_source=mindbase-readme) to allow users to connect and chat with their organization's knowledgebase. It serves as a reference application showcasing [Ragie](https://www.ragie.ai/?utm_source=mindbase-readme)'s features.
 
 > **NOTE**: This project is under active development and may include breaking changes in subsequent releases.
 
@@ -25,13 +25,13 @@ Base Chat is a multi-tenant RAG chatbot that uses [Ragie Connect](https://www.ra
 
 ## Setup
 
-Base Chat is built with [Next.js](https://nextjs.org/) and uses [Auth.js](https://authjs.dev/) for authentication.
+Mindbase is built with [Next.js](https://nextjs.org/) and uses [Auth.js](https://authjs.dev/) for authentication.
 
 1. **Clone and install dependencies**
 
    ```bash
-   git clone https://github.com/ragieai/basechat.git
-   cd basechat
+   git clone https://github.com/freddyjaoko/mindbase-chat-app.git
+   cd mindbase-chat-app
    npm install
    ```
 
@@ -39,7 +39,7 @@ Base Chat is built with [Next.js](https://nextjs.org/) and uses [Auth.js](https:
 
    ```bash
    # Create PostgreSQL database
-   createdb basechat
+   createdb mindbase
    ```
 
 3. **Environment configuration**
@@ -73,14 +73,14 @@ The application will be available at http://localhost:3000.
 
 ## Docker Deployment
 
-Base Chat includes Docker support for easy deployment:
+Mindbase includes Docker support for easy deployment:
 
 ```bash
 # Build Docker image
-docker build -t basechat .
+docker build -t mindbase .
 
 # Run container (adjust environment variables as needed)
-docker run -p 3000:3000 --env-file .env basechat
+docker run -p 3000:3000 --env-file .env mindbase
 ```
 
 ## Environment Variables
@@ -116,7 +116,6 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 ## Links
 
-- [Base Chat Product Website](https://www.ragie.ai/basechat?utm_source=basechat-readme)
-- [Ragie Website](https://www.ragie.ai/?utm_source=basechat-readme)
-- [Ragie Documentation](https://docs.ragie.ai/?utm_source=basechat-readme)
-- [Ragie Connectors](https://www.ragie.ai/connectors?utm_source=basechat-readme)
+- [Ragie Website](https://www.ragie.ai/?utm_source=mindbase-readme)
+- [Ragie Documentation](https://docs.ragie.ai/?utm_source=mindbase-readme)
+- [Ragie Connectors](https://www.ragie.ai/connectors?utm_source=mindbase-readme)
