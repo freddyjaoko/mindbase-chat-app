@@ -13,7 +13,14 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { tenantListResponseSchema, updateCurrentProfileSchema } from "@/lib/api";
 import { signOut } from "@/lib/auth-client";
-import { getDataPath, getPricingPlansPath, getSettingsPath, getSignInPath, getSignUpPath, getTenantPath } from "@/lib/paths";
+import {
+  getDataPath,
+  getPricingPlansPath,
+  getSettingsPath,
+  getSignInPath,
+  getSignUpPath,
+  getTenantPath,
+} from "@/lib/paths";
 import { cn } from "@/lib/utils";
 import AnonProfileIcon from "@/public/icons/anonymous-profile.svg";
 import CheckIcon from "@/public/icons/check.svg";
@@ -22,7 +29,6 @@ import HamburgerIcon from "@/public/icons/hamburger.svg";
 import LogOutIcon from "@/public/icons/log-out.svg";
 import NewChatIcon from "@/public/icons/new-chat.svg";
 import PlusIcon from "@/public/icons/plus.svg";
-
 
 import { Banner, BannerLink } from "./banner";
 import ConversationHistory from "./conversation-history";
@@ -90,7 +96,7 @@ export default function Header({
   email,
   role,
   billingEnabled,
-  onNavClick = () => { },
+  onNavClick = () => {},
 }: Props) {
   const router = useRouter();
   const [tenants, setTenants] = useState<z.infer<typeof tenantListResponseSchema>>([]);
@@ -107,12 +113,15 @@ export default function Header({
     })();
   }, []);
 
-  const handleLogOutClick = async () =>
-    await signOut({
-      fetchOptions: {
-        onSuccess: () => router.push(getSignInPath()),
-      },
-    });
+  const handleLogOutClick = async () => {
+    try {
+      await signOut();
+      router.replace(getSignInPath());
+      router.refresh();
+    } catch {
+      toast.error("Unable to log out. Please try again.");
+    }
+  };
 
   const handleProfileClick = async (tenant: z.infer<typeof tenantListResponseSchema>[number]) => {
     await fetch("/api/profiles", {
@@ -373,10 +382,10 @@ export default function Header({
 
                 <hr className="mb-4 bg-black border-none h-[1px] opacity-10" />
 
-                <div className="flex cursor-pointer" onClick={handleLogOutClick}>
+                <button type="button" className="flex cursor-pointer text-left" onClick={handleLogOutClick}>
                   <Image src={LogOutIcon} alt="Log out" className="mr-3" />
                   Log out
-                </div>
+                </button>
               </div>
             </HeaderPopoverContent>
           </Popover>
