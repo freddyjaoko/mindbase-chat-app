@@ -295,12 +295,69 @@ export const authenticators = pgTable(
 );
 /** End Auth.js schema */
 
+export const documentTypeEnum = pgEnum("document_type", [
+  "RFP response",
+  "Sales proposal",
+  "Security questionnaire",
+  "Technical document",
+  "Market research",
+  "Slide deck",
+  "Other",
+]);
+
+export const documents = pgTable(
+  "documents",
+  {
+    ...baseTenantFields,
+    profileId: uuid("profile_id")
+      .references(() => profiles.id, { onDelete: "cascade" })
+      .notNull(),
+    title: text("title").notNull(),
+    type: documentTypeEnum("type").default("Other").notNull(),
+    content: text("content").notNull(), // Current content in markdown
+  },
+  (t) => ({
+    profileIdx: index("documents_profile_idx").on(t.profileId),
+    tenantProfileIdx: index("documents_tenant_profile_idx").on(t.tenantId, t.profileId),
+  }),
+);
+
+export const documentVersions = pgTable(
+  "document_versions",
+  {
+    ...baseFields,
+    documentId: uuid("document_id")
+      .references(() => documents.id, { onDelete: "cascade" })
+      .notNull(),
+    content: text("content").notNull(),
+    changeSummary: text("change_summary"),
+  },
+  (t) => ({
+    documentIdx: index("document_versions_document_idx").on(t.documentId),
+  }),
+);
+
 export const conversationsRelations = relations(conversations, ({ one, many }) => ({
   profile: one(profiles, {
     fields: [conversations.profileId],
     references: [profiles.id],
   }),
   messages: many(messages),
+}));
+
+export const documentsRelations = relations(documents, ({ one, many }) => ({
+  profile: one(profiles, {
+    fields: [documents.profileId],
+    references: [profiles.id],
+  }),
+  versions: many(documentVersions),
+}));
+
+export const documentVersionsRelations = relations(documentVersions, ({ one }) => ({
+  document: one(documents, {
+    fields: [documentVersions.documentId],
+    references: [documents.id],
+  }),
 }));
 
 export const messagesRelations = relations(messages, ({ one }) => ({

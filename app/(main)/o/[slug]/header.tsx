@@ -1,5 +1,6 @@
 "use client";
 
+import { Database, Files, Grid, LayoutDashboard, MessageSquare, Settings, Sparkles } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -12,7 +13,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { tenantListResponseSchema, updateCurrentProfileSchema } from "@/lib/api";
 import { signOut } from "@/lib/auth-client";
-import { getPricingPlansPath, getSignInPath, getSignUpPath, getTenantPath } from "@/lib/paths";
+import { getDataPath, getPricingPlansPath, getSettingsPath, getSignInPath, getSignUpPath, getTenantPath } from "@/lib/paths";
 import { cn } from "@/lib/utils";
 import AnonProfileIcon from "@/public/icons/anonymous-profile.svg";
 import CheckIcon from "@/public/icons/check.svg";
@@ -21,6 +22,7 @@ import HamburgerIcon from "@/public/icons/hamburger.svg";
 import LogOutIcon from "@/public/icons/log-out.svg";
 import NewChatIcon from "@/public/icons/new-chat.svg";
 import PlusIcon from "@/public/icons/plus.svg";
+
 
 import { Banner, BannerLink } from "./banner";
 import ConversationHistory from "./conversation-history";
@@ -135,29 +137,6 @@ export default function Header({
             <ConversationHistory tenant={tenant} />
           </HeaderPopoverContent>
         </Popover>
-        <Link
-          href={`/o/${tenant.slug}/insights`}
-          className="mr-3 flex items-center font-bold uppercase tracking-wider text-sm border-2 border-transparent hover:border-black px-2 hover:bg-accent hover:text-accent-foreground transition-all ml-4"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="square"
-            strokeLinejoin="miter"
-            className="mr-2"
-          >
-            <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-          </svg>
-          Insights
-        </Link>
-        <Link href={getTenantPath(tenant.slug)}>
-          <Image src={NewChatIcon} alt="New chat" />
-        </Link>
       </div>
       {billingEnabled && (
         <>
@@ -207,150 +186,201 @@ export default function Header({
           <Image src={AnonProfileIcon} alt={name || "Guest"} />
         </div>
       ) : (
-        <Popover>
-          <PopoverTrigger asChild>
-            <div>
-              <Logo
-                name={name}
-                width={32}
-                height={32}
-                className="bg-[#66666E] font-semibold text-[16px] cursor-pointer"
-                initialCount={1}
-              />
-            </div>
-          </PopoverTrigger>
-          <HeaderPopoverContent align="end" className="p-4 w-[332px] flex flex-col">
-            <div className="text-sm text-gray-500 font-semibold ml-6 mb-3 mt-3">{email}</div>
+        <div className="flex items-center gap-4">
+          <Popover>
+            <PopoverTrigger asChild>
+              <div className="flex items-center gap-2 px-3 py-2 border-2 border-black bg-white hover:bg-accent cursor-pointer transition-all active:translate-x-[1px] active:translate-y-[1px] font-bold uppercase tracking-widest text-xs shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px]">
+                <LayoutDashboard className="w-4 h-4" />
+                Hub
+              </div>
+            </PopoverTrigger>
+            <HeaderPopoverContent align="end" className="w-[200px] p-0 overflow-hidden">
+              <div className="flex flex-col">
+                <Link
+                  href={getTenantPath(tenant.slug)}
+                  className="flex items-center gap-3 p-4 hover:bg-accent border-b-2 border-black transition-colors"
+                >
+                  <div className="bg-black text-white p-2">
+                    <MessageSquare className="w-4 h-4" />
+                  </div>
+                  <span className="font-bold uppercase tracking-wider text-xs">Chat</span>
+                </Link>
+                <Link
+                  href={`/o/${tenant.slug}/documents`}
+                  className="flex items-center gap-3 p-4 hover:bg-accent border-b-2 border-black transition-colors"
+                >
+                  <div className="bg-accent text-accent-foreground p-2 border-2 border-black">
+                    <Files className="w-4 h-4" />
+                  </div>
+                  <span className="font-bold uppercase tracking-wider text-xs">Documents</span>
+                </Link>
+                <Link
+                  href={getDataPath(tenant.slug)}
+                  className="flex items-center gap-3 p-4 hover:bg-accent border-b-2 border-black transition-colors"
+                >
+                  <div className="bg-secondary text-secondary-foreground p-2 border-2 border-black">
+                    <Database className="w-4 h-4" />
+                  </div>
+                  <span className="font-bold uppercase tracking-wider text-xs">Data</span>
+                </Link>
+                <Link
+                  href={getSettingsPath(tenant.slug)}
+                  className="flex items-center gap-3 p-4 hover:bg-accent transition-colors"
+                >
+                  <div className="bg-primary text-primary-foreground p-2 border-2 border-black">
+                    <Settings className="w-4 h-4" />
+                  </div>
+                  <span className="font-bold uppercase tracking-wider text-xs">Settings</span>
+                </Link>
+              </div>
+            </HeaderPopoverContent>
+          </Popover>
 
-            {/* Scrollable container for tenants list */}
-            <div className="max-h-[calc(100vh-330px)] overflow-y-auto pr-1 scrollbar-thin mb-4">
-              <ul>
-                {tenants.map((tenantItem, i) => (
-                  <li
-                    key={i}
-                    className="hover:bg-accent hover:text-accent-foreground border-2 border-transparent hover:border-black px-4 py-3 cursor-pointer group transition-colors"
-                    onClick={() => handleProfileClick(tenantItem)}
-                  >
-                    <div className="flex items-center mb-1">
-                      <div className="w-4">
-                        {tenant.id === tenantItem.id && <Image src={CheckIcon} alt="selected" />}
-                      </div>
-                      <Logo
-                        name={tenantItem.name}
-                        url={tenantItem.logoUrl}
-                        width={40}
-                        height={40}
-                        className="ml-3 text-[16px] w-[40px] h-[40px]"
-                        tenantId={tenantItem.id}
-                      />
-                      <div className="ml-4 flex-1">
-                        {tenantItem.name}
-                        <div className="text-xs text-gray-500 flex items-center gap-2">
-                          {tenantItem.profileRole === "admin" && (
-                            <span className="bg-secondary text-secondary-foreground border border-black w-[45px] h-[18px] px-1 py-0.5 text-[12px] font-bold flex items-center justify-center">
-                              Admin
-                            </span>
-                          )}
-                          {tenantItem.userCount ?? 1} User{(tenantItem.userCount ?? 1) === 1 ? "" : "s"}
+          <Popover>
+            <PopoverTrigger asChild>
+              <div>
+                <Logo
+                  name={name}
+                  width={32}
+                  height={32}
+                  className="bg-[#66666E] font-semibold text-[16px] cursor-pointer border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-none transition-all"
+                  initialCount={1}
+                />
+              </div>
+            </PopoverTrigger>
+            <HeaderPopoverContent align="end" className="p-4 w-[332px] flex flex-col">
+              <div className="text-sm text-gray-500 font-semibold ml-6 mb-3 mt-3">{email}</div>
+
+              {/* Scrollable container for tenants list */}
+              <div className="max-h-[calc(100vh-330px)] overflow-y-auto pr-1 scrollbar-thin mb-4">
+                <ul>
+                  {tenants.map((tenantItem, i) => (
+                    <li
+                      key={i}
+                      className="hover:bg-accent hover:text-accent-foreground border-2 border-transparent hover:border-black px-4 py-3 cursor-pointer group transition-colors"
+                      onClick={() => handleProfileClick(tenantItem)}
+                    >
+                      <div className="flex items-center mb-1">
+                        <div className="w-4">
+                          {tenant.id === tenantItem.id && <Image src={CheckIcon} alt="selected" />}
                         </div>
-                      </div>
-                      {tenantItem.lastAdmin ? (
-                        <TooltipProvider>
-                          <Tooltip>
-                            <TooltipTrigger asChild>
+                        <Logo
+                          name={tenantItem.name}
+                          url={tenantItem.logoUrl}
+                          width={40}
+                          height={40}
+                          className="ml-3 text-[16px] w-[40px] h-[40px]"
+                          tenantId={tenantItem.id}
+                        />
+                        <div className="ml-4 flex-1">
+                          {tenantItem.name}
+                          <div className="text-xs text-gray-500 flex items-center gap-2">
+                            {tenantItem.profileRole === "admin" && (
+                              <span className="bg-secondary text-secondary-foreground border border-black w-[45px] h-[18px] px-1 py-0.5 text-[12px] font-bold flex items-center justify-center">
+                                Admin
+                              </span>
+                            )}
+                            {tenantItem.userCount ?? 1} User{(tenantItem.userCount ?? 1) === 1 ? "" : "s"}
+                          </div>
+                        </div>
+                        {tenantItem.lastAdmin ? (
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <Image
+                                  src={EllipsesIcon}
+                                  height={16}
+                                  width={16}
+                                  alt="Options"
+                                  className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity cursor-not-allowed"
+                                  onClick={(e) => e.stopPropagation()}
+                                />
+                              </TooltipTrigger>
+                              <TooltipContent className="max-w-[200px] whitespace-normal">
+                                <p>You are the sole admin for this chatbot and cannot leave it.</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        ) : (
+                          <Popover>
+                            <PopoverTrigger asChild>
                               <Image
                                 src={EllipsesIcon}
                                 height={16}
                                 width={16}
                                 alt="Options"
-                                className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity cursor-not-allowed"
+                                className="flex-shrink-0 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity"
                                 onClick={(e) => e.stopPropagation()}
                               />
-                            </TooltipTrigger>
-                            <TooltipContent className="max-w-[200px] whitespace-normal">
-                              <p>You are the sole admin for this chatbot and cannot leave it.</p>
-                            </TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
-                      ) : (
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <Image
-                              src={EllipsesIcon}
-                              height={16}
-                              width={16}
-                              alt="Options"
-                              className="flex-shrink-0 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity"
-                              onClick={(e) => e.stopPropagation()}
-                            />
-                          </PopoverTrigger>
-                          <TenantPopoverContent>
-                            <button
-                              className="text-sm text-black hover:text-gray-700"
-                              onClick={async (e) => {
-                                e.stopPropagation();
-                                const res = await fetch(`/api/profiles/${tenantItem.profileId}`, {
-                                  method: "DELETE",
-                                  headers: { tenant: tenantItem.slug },
-                                });
-                                if (!res.ok) {
-                                  try {
-                                    const payload = errorSchema.parse(await res.json());
-                                    toast.error(`Error: ${payload.error}`);
-                                  } catch (e) {
-                                    toast.error(`Error: ${res.statusText || "An unexpected error occurred"}`);
+                            </PopoverTrigger>
+                            <TenantPopoverContent>
+                              <button
+                                className="text-sm text-black hover:text-gray-700"
+                                onClick={async (e) => {
+                                  e.stopPropagation();
+                                  const res = await fetch(`/api/profiles/${tenantItem.profileId}`, {
+                                    method: "DELETE",
+                                    headers: { tenant: tenantItem.slug },
+                                  });
+                                  if (!res.ok) {
+                                    try {
+                                      const payload = errorSchema.parse(await res.json());
+                                      toast.error(`Error: ${payload.error}`);
+                                    } catch (e) {
+                                      toast.error(`Error: ${res.statusText || "An unexpected error occurred"}`);
+                                    }
+                                    return;
                                   }
-                                  return;
-                                }
-                                toast.info("Left chatbot");
-                                // Find a new tenant to switch to
-                                const newTenant = tenants.find((t) => t.id !== tenantItem.id);
-                                if (!newTenant) {
-                                  // If no other tenants, go to empty state
-                                  router.push("/empty");
-                                  return;
-                                }
-                                // Set new current tenant and navigate
-                                await fetch("/api/profiles", {
-                                  method: "POST",
-                                  body: JSON.stringify(
-                                    updateCurrentProfileSchema.parse({
-                                      tenantId: newTenant.id,
-                                    }),
-                                  ),
-                                });
-                                router.push(getTenantPath(newTenant.slug));
-                              }}
-                            >
-                              Leave chatbot
-                            </button>
-                          </TenantPopoverContent>
-                        </Popover>
-                      )}
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Fixed bottom options */}
-            <div className="mt-auto">
-              <hr className="mb-4 bg-black border-none h-[1px] opacity-10" />
-
-              <Link className="flex cursor-pointer mb-4" href="/setup">
-                <Image src={PlusIcon} alt="New Chatbot" className="mr-3" />
-                New Chatbot
-              </Link>
-
-              <hr className="mb-4 bg-black border-none h-[1px] opacity-10" />
-
-              <div className="flex cursor-pointer" onClick={handleLogOutClick}>
-                <Image src={LogOutIcon} alt="Log out" className="mr-3" />
-                Log out
+                                  toast.info("Left chatbot");
+                                  // Find a new tenant to switch to
+                                  const newTenant = tenants.find((t) => t.id !== tenantItem.id);
+                                  if (!newTenant) {
+                                    // If no other tenants, go to empty state
+                                    router.push("/empty");
+                                    return;
+                                  }
+                                  // Set new current tenant and navigate
+                                  await fetch("/api/profiles", {
+                                    method: "POST",
+                                    body: JSON.stringify(
+                                      updateCurrentProfileSchema.parse({
+                                        tenantId: newTenant.id,
+                                      }),
+                                    ),
+                                  });
+                                  router.push(getTenantPath(newTenant.slug));
+                                }}
+                              >
+                                Leave chatbot
+                              </button>
+                            </TenantPopoverContent>
+                          </Popover>
+                        )}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
               </div>
-            </div>
-          </HeaderPopoverContent>
-        </Popover>
+
+              {/* Fixed bottom options */}
+              <div className="mt-auto">
+                <hr className="mb-4 bg-black border-none h-[1px] opacity-10" />
+
+                <Link className="flex cursor-pointer mb-4" href="/setup">
+                  <Image src={PlusIcon} alt="New Chatbot" className="mr-3" />
+                  New Chatbot
+                </Link>
+
+                <hr className="mb-4 bg-black border-none h-[1px] opacity-10" />
+
+                <div className="flex cursor-pointer" onClick={handleLogOutClick}>
+                  <Image src={LogOutIcon} alt="Log out" className="mr-3" />
+                  Log out
+                </div>
+              </div>
+            </HeaderPopoverContent>
+          </Popover>
+        </div>
       )}
     </header>
   );

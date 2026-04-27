@@ -43,40 +43,5 @@ interface Props {
 }
 
 export default function Footer({ className, tenant }: Props) {
-  const pathname = usePathname();
-
-  let appLocation = AppLocation.CHAT;
-  if (pathname.startsWith(getDataPath(tenant.slug))) {
-    appLocation = AppLocation.DATA;
-  } else if (pathname.startsWith(getSettingsPath(tenant.slug))) {
-    appLocation = AppLocation.SETTINGS;
-  }
-
-  const chatIcon = appLocation === AppLocation.CHAT ? ChatIconOn : ChatIconOff;
-  const chatClassName = appLocation === AppLocation.CHAT ? "mr-5 font-semibold" : "mr-5";
-
-  const dataIcon = appLocation === AppLocation.DATA ? DataIconOn : DataIconOff;
-  const dataClassName = appLocation === AppLocation.DATA ? "mr-5 font-semibold" : "mr-5";
-
-  const settingsIcon = appLocation === AppLocation.SETTINGS ? SettingsIconOn : SettingsIconOff;
-  const settingsClassName = appLocation === AppLocation.SETTINGS ? "mr-5 font-semibold" : "mr-5";
-
-  return (
-    <div
-      className={cn(
-        "flex justify-around md:justify-start w-full md:w-auto bg-white md:bg-transparent py-2 md:py-0",
-        className,
-      )}
-    >
-      <Link href={getTenantPath(tenant.slug)} className="flex-1 md:flex-none flex justify-center">
-        <NavButton alt="Chat" src={chatIcon} className={chatClassName} />
-      </Link>
-      <Link href={getDataPath(tenant.slug)} className="flex-1 md:flex-none flex justify-center">
-        <NavButton alt="Data" src={dataIcon} className={dataClassName} />
-      </Link>
-      <Link href={getSettingsPath(tenant.slug)} className="flex-1 md:flex-none flex justify-center">
-        <NavButton alt="Settings" src={settingsIcon} className={settingsClassName} />
-      </Link>
-    </div>
-  );
+  return null;
 }
