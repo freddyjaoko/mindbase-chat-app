@@ -1,9 +1,12 @@
-<img width="890" height="930" alt="Screenshot 2026-04-21 130949" src="https://github.com/user-attachments/assets/56a5ff12-50a2-4780-ad93-021760db9e25" />
-<img width="1909" height="947" alt="Screenshot 2026-04-21 130829" src="https://github.com/user-attachments/assets/4e4a1bb7-f3fd-4293-bb88-139949947be0" />
-
 # Mindbase
 
+<img width="890" height="930" alt="Screenshot 2026-04-21 130949" src="https://github.com/user-attachments/assets/56a5ff12-50a2-4780-ad93-021760db9e25" />
+
+
+
 Mindbase is a multi-tenant RAG chatbot that uses [Ragie Connect](https://www.ragie.ai/connectors?utm_source=mindbase-readme) to allow users to connect and chat with their organization's knowledgebase. It serves as a reference application showcasing [Ragie](https://www.ragie.ai/?utm_source=mindbase-readme)'s features.
+
+https://github.com/user-attachments/assets/d579a00d-6e80-4ec8-8eee-098f287696f8
 
 > **NOTE**: This project is under active development and may include breaking changes in subsequent releases.
 
