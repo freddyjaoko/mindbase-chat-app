@@ -10,115 +10,43 @@ import db from "@/lib/server/db";
 import { documents, documentVersions, profiles } from "@/lib/server/db/schema";
 
 function getLanguageModel(model: string) {
-    const provider = getProviderForModel(model);
-    switch (provider) {
-        case "openai":
-            return openai(model);
-        case "google":
-            return google(model);
-        case "anthropic":
-            return anthropic(model);
-        case "groq":
-            return groq(model);
-        default:
-            return openai(model);
-    }
-}
-
-export async function generateDocument({
-    profileId,
-    tenantId,
-    title,
-    type,
-    prompt,
-    contextText = "",
-}: {
-    profileId: string;
-    tenantId: string;
-    title: string;
-    type: string;
-    prompt: string;
-    contextText?: string;
-}) {
-    const profile = await db.query.profiles.findFirst({
-        where: eq(profiles.id, profileId),
-    });
-
-    if (!profile) throw new Error("Profile not found");
-
-    const modelId = (profile.insightModel as LLMModel) || "gpt-4o";
-
-    const systemPrompt = `
-    You are an expert business document creator. 
-    Your goal is to create a professional, structured document based on a user's prompt and provided context.
-    The document type is: ${type}.
-    
-    Guidelines:
-    - Use Markdown for formatting.
-    - Include structured elements like headers, bullet points, and tables where appropriate.
-    - Use a professional tone that matches the company context.
-    - If context is provided, ground the document in that data.
-    - Do not include generic AI filler; focus on specific, actionable content.
-    - The output should be 90% ready for review.
-    
-    If the document contains data that can be visualized, represent it as a Markdown table.
-  `;
-
-    const fullPrompt = `
-    User Request: ${prompt}
-    
-    Relevant Context from Knowledge Base:
-    ${contextText}
-    
-    Please generate the complete document now.
-  `;
-
-    const { text } = await generateText({
-        model: getLanguageModel(modelId),
-        system: systemPrompt,
-        prompt: fullPrompt,
-    });
-
-    // Save to DB
-    const [doc] = await db.insert(documents).values({
-        profileId,
-        tenantId,
-        title,
-        type: type as any,
-        content: text,
-    }).returning();
-
-    await db.insert(documentVersions).values({
-        documentId: doc.id,
-        content: text,
-        changeSummary: "Initial draft generation",
-    });
-
-    return doc;
+  const provider = getProviderForModel(model);
+  switch (provider) {
+    case "openai":
+      return openai(model);
+    case "google":
+      return google(model);
+    case "anthropic":
+      return anthropic(model);
+    case "groq":
+      return groq(model);
+    default:
+      return openai(model);
+  }
 }
 
 export async function refineDocument({
-    documentId,
-    refinementPrompt,
-    contextText = "",
+  documentId,
+  refinementPrompt,
+  contextText = "",
 }: {
-    documentId: string;
-    refinementPrompt: string;
-    contextText?: string;
+  documentId: string;
+  refinementPrompt: string;
+  contextText?: string;
 }) {
-    const doc = await db.query.documents.findFirst({
-        where: eq(documents.id, documentId),
-    });
+  const doc = await db.query.documents.findFirst({
+    where: eq(documents.id, documentId),
+  });
 
-    if (!doc) throw new Error("Document not found");
+  if (!doc) throw new Error("Document not found");
 
-    const profile = await db.query.profiles.findFirst({
-        where: eq(profiles.id, doc.profileId),
-    });
+  const profile = await db.query.profiles.findFirst({
+    where: eq(profiles.id, doc.profileId),
+  });
 
-    const modelId = (profile?.insightModel as LLMModel) || "gpt-4o";
+  const modelId = (profile?.insightModel as LLMModel) || "gpt-4o";
 
-    const systemPrompt = `
+  const systemPrompt = `
     You are an expert document editor.
     You are refining an existing document based on a user's instruction.
     The document type is: ${doc.type}.
@@ -130,7 +58,7 @@ export async function refineDocument({
     - Be precise with your edits.
   `;
 
-    const fullPrompt = `
+  const fullPrompt = `
     Current Document Content:
     ---
     ${doc.content}
@@ -144,41 +72,44 @@ export async function refineDocument({
     Please provide the complete updated document.
   `;
 
-    const { text } = await generateText({
-        model: getLanguageModel(modelId),
-        system: systemPrompt,
-        prompt: fullPrompt,
-    });
+  const { text } = await generateText({
+    model: getLanguageModel(modelId),
+    system: systemPrompt,
+    prompt: fullPrompt,
+  });
 
-    // Update DB
-    await db.update(documents).set({
-        content: text,
-        updatedAt: new Date(),
-    }).where(eq(documents.id, documentId));
+  // Update DB
+  await db
+    .update(documents)
+    .set({
+      content: text,
+      updatedAt: new Date(),
+    })
+    .where(eq(documents.id, documentId));
 
-    await db.insert(documentVersions).values({
-        documentId,
-        content: text,
-        changeSummary: refinementPrompt.substring(0, 100),
-    });
+  await db.insert(documentVersions).values({
+    documentId,
+    content: text,
+    changeSummary: refinementPrompt.substring(0, 100),
+  });
 
-    return { ...doc, content: text };
+  return { ...doc, content: text };
 }
 
 export async function getDocument(documentId: string) {
-    return db.query.documents.findFirst({
-        where: eq(documents.id, documentId),
-        with: {
-            versions: {
-                orderBy: [desc(documentVersions.createdAt)],
-            },
-        },
-    });
+  return db.query.documents.findFirst({
+    where: eq(documents.id, documentId),
+    with: {
+      versions: {
+        orderBy: [desc(documentVersions.createdAt)],
+      },
+    },
+  });
 }
 
 export async function listDocuments(tenantId: string) {
-    return db.query.documents.findMany({
-        where: eq(documents.tenantId, tenantId),
-        orderBy: [desc(documents.updatedAt)],
-    });
+  return db.query.documents.findMany({
+    where: eq(documents.tenantId, tenantId),
+    orderBy: [desc(documents.updatedAt)],
+  });
 }

@@ -159,12 +159,6 @@ export const documentSchema = z.object({
 
 export const documentListResponseSchema = z.array(documentSchema);
 
-export const createDocumentRequestSchema = z.object({
-  title: z.string(),
-  type: z.string(),
-  prompt: z.string(),
-});
-
 export const refineDocumentRequestSchema = z.object({
   prompt: z.string(),
 });
